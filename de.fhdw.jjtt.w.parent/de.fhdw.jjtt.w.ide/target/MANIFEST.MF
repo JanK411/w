@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: de.fhdw.jjtt.w.ide; singleton:=true
+Export-Package: de.fhdw.jjtt.w.ide.contentassist.antlr.internal,de.fhd
+ w.jjtt.w.ide.contentassist.antlr,de.fhdw.jjtt.w.ide.contentassist.ant
+ lr.lexer
+Bundle-Name: de.fhdw.jjtt.w.ide
+Bundle-Version: 1.0.0.201805211818
+Require-Bundle: de.fhdw.jjtt.w,org.eclipse.xtext.ide,org.eclipse.xtext
+ .xbase.ide,org.antlr.runtime
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: My Company
+

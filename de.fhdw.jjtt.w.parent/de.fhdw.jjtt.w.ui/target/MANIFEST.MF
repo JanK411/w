@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: de.fhdw.jjtt.w.ui; singleton:=true
+Export-Package: de.fhdw.jjtt.w.ui.quickfix,de.fhdw.jjtt.w.ui.internal,
+ de.fhdw.jjtt.w.ui.contentassist
+Bundle-Name: de.fhdw.jjtt.w.ui
+Bundle-Version: 1.0.0.201805211818
+Require-Bundle: de.fhdw.jjtt.w,de.fhdw.jjtt.w.ide,org.eclipse.xtext.ui
+ ,org.eclipse.xtext.ui.shared,org.eclipse.xtext.ui.codetemplates.ui,or
+ g.eclipse.ui.editors;bundle-version="3.5.0",org.eclipse.ui.ide;bundle
+ -version="3.5.0",org.eclipse.ui,org.eclipse.compare,org.eclipse.xtext
+ .builder,org.eclipse.xtend.lib;resolution:=optional,org.eclipse.xtext
+ .xbase.lib;bundle-version="2.13.0"
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Activator: de.fhdw.jjtt.w.ui.internal.WActivator
+Bundle-Vendor: My Company
+Import-Package: org.apache.log4j
+

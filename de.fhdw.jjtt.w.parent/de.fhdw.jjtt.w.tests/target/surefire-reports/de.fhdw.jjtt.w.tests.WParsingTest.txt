@@ -1,0 +1,5 @@
+-------------------------------------------------------------------------------
+Test set: de.fhdw.jjtt.w.tests.WParsingTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.81 sec - in de.fhdw.jjtt.w.tests.WParsingTest
+loadModel(de.fhdw.jjtt.w.tests.WParsingTest)  Time elapsed: 0.221 sec

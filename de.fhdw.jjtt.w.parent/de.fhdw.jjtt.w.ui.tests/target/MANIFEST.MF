@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: de.fhdw.jjtt.w.ui.tests; singleton:=true
+Export-Package: de.fhdw.jjtt.w.ui.tests;x-internal=true
+Bundle-Name: de.fhdw.jjtt.w.ui.tests
+Bundle-Version: 1.0.0.201805211818
+Require-Bundle: de.fhdw.jjtt.w.ui,org.junit;bundle-version="4.12.0",or
+ g.eclipse.xtext.testing,org.eclipse.xtext.xbase.testing,org.eclipse.x
+ text.junit4,org.eclipse.xtext.xbase.junit,org.eclipse.core.runtime,or
+ g.eclipse.ui.workbench;resolution:=optional
+Bundle-ManifestVersion: 2
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: My Company
+Import-Package: org.hamcrest.core,org.junit;version="4.5.0",org.junit.
+ runners.model;version="4.5.0",org.junit.runner;version="4.5.0",org.ju
+ nit.runners;version="4.5.0",org.junit.runner.manipulation;version="4.
+ 5.0",org.junit.runner.notification;version="4.5.0"
+
