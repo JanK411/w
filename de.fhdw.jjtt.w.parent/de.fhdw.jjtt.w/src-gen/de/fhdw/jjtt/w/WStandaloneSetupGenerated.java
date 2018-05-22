@@ -5,8 +5,6 @@ package de.fhdw.jjtt.w;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.fhdw.jjtt.w.w.WPackage;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.ISetup;
 import org.eclipse.xtext.common.TerminalsStandaloneSetup;
@@ -30,9 +28,6 @@ public class WStandaloneSetupGenerated implements ISetup {
 	}
 	
 	public void register(Injector injector) {
-		if (!EPackage.Registry.INSTANCE.containsKey("http://www.fhdw.de/jjtt/w/W")) {
-			EPackage.Registry.INSTANCE.put("http://www.fhdw.de/jjtt/w/W", WPackage.eINSTANCE);
-		}
 		IResourceFactory resourceFactory = injector.getInstance(IResourceFactory.class);
 		IResourceServiceProvider serviceProvider = injector.getInstance(IResourceServiceProvider.class);
 		

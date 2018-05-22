@@ -4,9 +4,10 @@ Export-Package: de.fhdw.jjtt.w.parser.antlr,de.fhdw.jjtt.w.services,de
  .fhdw.jjtt.w.w.impl,de.fhdw.jjtt.w.generator,de.fhdw.jjtt.w.serialize
  r,de.fhdw.jjtt.w.w.util,de.fhdw.jjtt.w.w,de.fhdw.jjtt.w.validation,de
  .fhdw.jjtt.w.scoping,de.fhdw.jjtt.w,de.fhdw.jjtt.w.parser.antlr.inter
- nal,de.fhdw.jjtt.w.formatting2,de.fhdw.jjtt.w.parser.antlr.lexer
+ nal,de.fhdw.jjtt.w.formatting2,de.fhdw.jjtt.w.parser.antlr.lexer,de.f
+ hdw.jjtt.w.formatting
 Bundle-Name: de.fhdw.jjtt.w
-Bundle-Version: 1.0.0.201805211818
+Bundle-Version: 1.0.0.201805222008
 Require-Bundle: org.eclipse.xtext,org.eclipse.xtext.xbase,org.eclipse.
  equinox.common;bundle-version="3.5.0",org.eclipse.emf.ecore,org.eclip
  se.xtext.xbase.lib;bundle-version="2.13.0",org.antlr.runtime,org.ecli

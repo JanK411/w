@@ -13,7 +13,7 @@ public abstract class AbstractWValidator extends AbstractDeclarativeValidator {
 	@Override
 	protected List<EPackage> getEPackages() {
 		List<EPackage> result = new ArrayList<EPackage>();
-		result.add(de.fhdw.jjtt.w.w.WPackage.eINSTANCE);
+		result.add(EPackage.Registry.INSTANCE.getEPackage("http://www.fhdw.de/jjtt/w/W"));
 		return result;
 	}
 	

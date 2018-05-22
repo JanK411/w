@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805211818'>
-    <update id='de.fhdw.jjtt.w.ui.tests' range='[0.0.0,1.0.0.201805211818)' severity='0'/>
+  <unit id='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805222008'>
+    <update id='de.fhdw.jjtt.w.ui.tests' range='[0.0.0,1.0.0.201805222008)' severity='0'/>
     <properties size='5'>
       <property name='org.eclipse.equinox.p2.name' value='de.fhdw.jjtt.w.ui.tests'/>
       <property name='org.eclipse.equinox.p2.provider' value='My Company'/>
@@ -10,8 +10,8 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='4'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805211818'/>
-      <provided namespace='osgi.bundle' name='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805211818'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805222008'/>
+      <provided namespace='osgi.bundle' name='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805222008'/>
       <provided namespace='java.package' name='de.fhdw.jjtt.w.ui.tests' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
@@ -33,13 +33,13 @@
       <required namespace='java.package' name='org.junit.runner.notification' range='4.5.0'/>
     </requires>
     <artifacts size='1'>
-      <artifact classifier='osgi.bundle' id='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805211818'/>
+      <artifact classifier='osgi.bundle' id='de.fhdw.jjtt.w.ui.tests' version='1.0.0.201805222008'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-          Bundle-SymbolicName: de.fhdw.jjtt.w.ui.tests; singleton:=true&#xA;Bundle-Version: 1.0.0.201805211818&#xA;
+          Bundle-SymbolicName: de.fhdw.jjtt.w.ui.tests; singleton:=true&#xA;Bundle-Version: 1.0.0.201805222008&#xA;
         </instruction>
       </instructions>
     </touchpointData>

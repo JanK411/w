@@ -27,5 +27,6 @@ Export-Package: de.fhdw.jjtt.w.parser.antlr,
  de.fhdw.jjtt.w,
  de.fhdw.jjtt.w.parser.antlr.internal,
  de.fhdw.jjtt.w.formatting2,
- de.fhdw.jjtt.w.parser.antlr.lexer
+ de.fhdw.jjtt.w.parser.antlr.lexer,
+ de.fhdw.jjtt.w.formatting
 Import-Package: org.apache.log4j

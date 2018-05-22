@@ -5,6 +5,6 @@
 		<package 
 			uri = "http://www.fhdw.de/jjtt/w/W"
 			class = "de.fhdw.jjtt.w.w.WPackage"
-			genModel = "model/generated/W.genmodel" />
+			genModel = "model/custom/W.genmodel" />
 	</extension>
 </plugin>
