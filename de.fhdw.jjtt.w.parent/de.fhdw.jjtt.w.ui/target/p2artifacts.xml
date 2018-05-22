@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='de.fhdw.jjtt.w.ui' version='1.0.0.201805222008'>
+  <artifact classifier='osgi.bundle' id='de.fhdw.jjtt.w.ui' version='1.0.0.201805222041'>
     <properties size='5'>
-      <property name='artifact.size' value='17796'/>
-      <property name='download.size' value='17796'/>
+      <property name='artifact.size' value='17797'/>
+      <property name='download.size' value='17797'/>
       <property name='maven-groupId' value='de.fhdw.jjtt.w'/>
       <property name='maven-artifactId' value='de.fhdw.jjtt.w.ui'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>

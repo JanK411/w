@@ -4,7 +4,7 @@ Export-Package: de.fhdw.jjtt.w.ide.contentassist.antlr.internal,de.fhd
  w.jjtt.w.ide.contentassist.antlr,de.fhdw.jjtt.w.ide.contentassist.ant
  lr.lexer
 Bundle-Name: de.fhdw.jjtt.w.ide
-Bundle-Version: 1.0.0.201805222008
+Bundle-Version: 1.0.0.201805222041
 Require-Bundle: de.fhdw.jjtt.w,org.eclipse.xtext.ide,org.eclipse.xtext
  .xbase.ide,org.antlr.runtime
 Bundle-ManifestVersion: 2
