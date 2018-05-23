@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import de.fhdw.jjtt.w.w.Sequence
 
 /**
  * Generates code from your model files on save.
@@ -21,5 +22,11 @@ class WGenerator extends AbstractGenerator {
 //				.filter(Greeting)
 //				.map[name]
 //				.join(', '))
+		val content = '''
+			public class Allmyfuckingprograms {
+				«resource.allContents.filter(Sequence)»
+			}
+		'''
+		fsa.generateFile("Allmyfuckingprograms.java", content)
 	}
 }

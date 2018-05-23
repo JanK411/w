@@ -1,24 +1,32 @@
 grammar de.fhdw.jjtt.w.W with org.eclipse.xtext.common.Terminals
 
-import "http://www.fhdw.de/jjtt/w/W"
+generate asdf "http://www.fhdw.de/jjtt/w/W"
+
+File:
+	programs+=NamedProgram*;
+
+NamedProgram:
+	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
+	program=UnnamedProgram
+	'}';
 
 Program:
+	UnnamedProgram | NamedProgram;
+
+UnnamedProgram:
 	Assignment | Sequence | Loop;
 
 Assignment:
-	toBeAssigned=Variable '=' var=Variable op=Operator const=Constant;
+	toBeAssigned=Variable '=' var=ValueHavingThing op=Operator const=ValueHavingThing;
+
+ValueHavingThing:
+	Constant | Variable;
 
 Variable:
 	name=ID;
 
 Operator:
-	PLUS | MINUS;
-
-PLUS:
-	'+';
-
-MINUS:
-	'-';
+	'+' | '-';
 
 Constant:
 	value=INT;
@@ -27,4 +35,4 @@ Loop:
 	'while' var=Variable '!=' const=Constant 'do' prog=Program 'endwhile';
 
 Sequence:
-	p1=(Assignment | Loop) ';' p2=Program;
+	p1=(Assignment | Loop | NamedProgram) ';' p2=Program;

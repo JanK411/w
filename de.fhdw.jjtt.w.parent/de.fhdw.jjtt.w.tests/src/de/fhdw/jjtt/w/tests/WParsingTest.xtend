@@ -20,24 +20,41 @@ class WParsingTest {
 
 	@Test
 	def void loadModel() {
-//		val result = parseHelper.parse('''
-//			x1 = x0 + 5;
-//			WHILE x1 != 0 DO
-//				x2 := x2 + 8;
-//				x1 := x1 - 1;
-//			ENDWHILE
-//		''')
-		val result2 = parseHelper.parse('''
+		val result = parseHelper.parse('''
 			While x != 6 do
 			y = x + 2
 			endwhile ;
 			x = y + 8
 		''')
-		println(result2)
-		Assert.assertNotNull(result2)
-		Assert.assertTrue(result2.eResource.errors.isEmpty)
-//		println(result)
-//		Assert.assertNotNull(result)
-//		Assert.assertTrue(result.eResource.errors.isEmpty)
+		println(result)
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
+	}
+
+	@Test
+	def void load() {
+		val result = parseHelper.parse('''
+		main() {
+			y = 13;
+			x = 5;
+			z = x;
+			multiply(x,y);
+			asdf(x)
+		}
+		
+		/? dies ist eine Multiplikationsoperation ?/
+		multiply(x,y) {
+			y = x + 2
+		}
+		
+		asdf(x) {
+			multiply(x,y);
+			y= x+7
+		}
+			
+		''')
+		println(result)
+		Assert.assertNotNull(result)
+		Assert.assertTrue(result.eResource.errors.isEmpty)
 	}
 }
