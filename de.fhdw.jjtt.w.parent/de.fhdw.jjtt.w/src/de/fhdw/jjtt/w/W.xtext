@@ -1,6 +1,6 @@
 grammar de.fhdw.jjtt.w.W with org.eclipse.xtext.common.Terminals
 
-import "http://www.fhdw.de/jjtt/w/W"
+generate asdf "http://www.fhdw.de/jjtt/w/W"
 
 File:
 	programs+=NamedProgram*;
