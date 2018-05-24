@@ -18,8 +18,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//Variable"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="const" eType="#//Constant"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="prog" eType="#//Program"
         containment="true"/>
   </eClassifiers>

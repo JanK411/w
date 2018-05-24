@@ -37,40 +37,43 @@ class WParsingTest {
 				f21 = f21 - 1;
 			endwhile
 		}''')
+		
+		Assert.assertEquals(2, result.programs)
+		Assert.assertNotNull(result.programs.findFirst[it.name == "main"])
+		Assert.assertNotNull(result.programs.findFirst[it.name == "multiply"])
 
 		val gen = new WGenerator()
-		// TODO irgendwie das Output des Generats hier abspeichern in real
-		val real = "";
-		val expected = '''
-			public class asdf {
-				public static void main(String[] args) {
-				
-					Band x = Band.create();
-					Band y = Band.create();
-					TouringMachine.createSeq(
-						TouringMachine.createAdd(5,0,x),
-						TouringMachine.createSeq(
-							TouringMachine.createAdd(3,0,y),
-							createMultiplyMachine(x, y))
-						)
-					).run();
-				}
-				
-				public TouringMachine createMultiplyMachine(Band f1, Band f2) {
-					Band f11 = Band.create();
-					Band f21 = Band.create();
-					return TouringMachine.createSeq(
-						TouringMachine.createCopy(f1, f11),
-						TouringMachine.createSeq(
-							TouringMachine.createCopy(f2, f21)
-							TouringMachine.createWhile(f21, TouringMachine.createSeq(
-								TouringMachine.createAdd(f1, f11, f1),
-								TouringMachine.createSub(f21, Band.create(1), f21)
-							))
-						)
-					)
-				}
-			}
-		'''
+		val main = gen.generateProgram(result.programs.findFirst[it.name == "main"])
+		val expectedMain = '''
+		public static void main(String[] args) {
+			Band x = Band.create();
+			Band y = Band.create();
+			TouringMachine.createSeq(
+				TouringMachine.createAdd(5,0,x),
+				TouringMachine.createSeq(
+					TouringMachine.createAdd(3,0,y),
+					createMultiplyMachine(x, y))
+				)
+			).run();
+		}'''
+		Assert.assertEquals(expectedMain.trim, main.trim)
+
+		val multiply = gen.generateProgram(result.programs.findFirst[it.name == "multiply"])
+		val expectedMultiply = '''
+		public TouringMachine createMultiplyMachine(Band f1, Band f2) {
+			Band f11 = Band.create();
+			Band f21 = Band.create();
+			return TouringMachine.createSeq(
+				TouringMachine.createCopy(f1, f11),
+				TouringMachine.createSeq(
+					TouringMachine.createCopy(f2, f21)
+					TouringMachine.createWhile(f21, TouringMachine.createSeq(
+						TouringMachine.createAdd(f1, f11, f1),
+						TouringMachine.createSub(f21, Band.create(1), f21)
+					))
+				)
+			)
+		}'''
+		Assert.assertEquals(expectedMultiply.trim, multiply.trim)
 	}
 }

@@ -5,13 +5,22 @@ import "http://www.fhdw.de/jjtt/w/W"
 File:
 	programs+=NamedProgram*;
 
+Variable:
+	name=ID;
+
+Constant:
+	value=INT;
+
+Operator:
+	'+' | '-';
+
+Program:
+	UnnamedProgram | NamedProgram;
+
 NamedProgram:
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
 	'}';
-
-Program:
-	UnnamedProgram | NamedProgram;
 
 UnnamedProgram:
 	Assignment | Sequence | Loop;
@@ -22,17 +31,8 @@ Assignment:
 ValueHavingThing:
 	Constant | Variable;
 
-Variable:
-	name=ID;
-
-Operator:
-	'+' | '-';
-
-Constant:
-	value=INT;
-
 Loop:
-	'while' var=Variable '!=' const=Constant 'do' prog=Program 'endwhile';
+	'while' var=Variable '!=' '0' 'do' prog=Program 'endwhile';
 
 Sequence:
 	p1=(Assignment | Loop | NamedProgram) ';' p2=Program;
