@@ -27,8 +27,5 @@ Export-Package: de.fhdw.jjtt.w,
  de.fhdw.jjtt.w.validation,
  de.fhdw.jjtt.w.w,
  de.fhdw.jjtt.w.w.impl,
- de.fhdw.jjtt.w.w.util,
- de.fhdw.jjtt.w.asdf.impl,
- de.fhdw.jjtt.w.asdf.util,
- de.fhdw.jjtt.w.asdf
+ de.fhdw.jjtt.w.w.util
 Import-Package: org.apache.log4j

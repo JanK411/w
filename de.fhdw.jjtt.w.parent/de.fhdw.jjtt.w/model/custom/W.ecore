@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="w" nsURI="http://www.fhdw.de/jjtt/w/W" nsPrefix="w">
   <eClassifiers xsi:type="ecore:EClass" name="Program" abstract="true" interface="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//Program">
+  <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="toBeAssigned" eType="#//Variable"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//ValueHavingThing"
@@ -17,7 +17,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//ValueHavingThing">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//Program">
+  <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//Variable"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="const" eType="#//Constant"
@@ -25,13 +25,24 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="prog" eType="#//Program"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//Program">
+  <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="p1" eType="#//Program"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="p2" eType="#//Program"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueHavingThing" abstract="true" interface="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="NamedProgram" eSuperTypes="#//Program"/>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedProgram" eSuperTypes="#//Program">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="program" lowerBound="1"
+        eType="#//UnnamedProgram" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
+        eType="#//Variable" containment="true"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnnamedProgram" eSuperTypes="#//Program"/>
+  <eClassifiers xsi:type="ecore:EClass" name="File">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="programs" upperBound="-1"
+        eType="#//NamedProgram" containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

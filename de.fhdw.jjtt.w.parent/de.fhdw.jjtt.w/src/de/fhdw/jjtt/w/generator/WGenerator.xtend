@@ -7,7 +7,11 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import org.eclipse.emf.ecore.EObject
+import de.fhdw.jjtt.w.w.UnnamedProgram
+import de.fhdw.jjtt.w.w.NamedProgram
 import de.fhdw.jjtt.w.w.Sequence
+import de.fhdw.jjtt.w.w.Program
 
 /**
  * Generates code from your model files on save.
@@ -22,11 +26,20 @@ class WGenerator extends AbstractGenerator {
 //				.filter(Greeting)
 //				.map[name]
 //				.join(', '))
+		val path = resource.URI.path
+		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
 		val content = '''
-			public class Allmyfuckingprograms {
-				«resource.allContents.filter(Sequence)»
+			public class «fileName» {
+				«FOR p : resource.allContents.toIterable.filter(Program)»
+					«generateNamedProgram(p)»
+				«ENDFOR»
 			}
 		'''
-		fsa.generateFile("Allmyfuckingprograms.java", content)
+		fsa.generateFile('''«fileName».java''', content)
 	}
+
+	def String generateNamedProgram(Program program) {
+		'''public void «program»'''
+	}
+
 }

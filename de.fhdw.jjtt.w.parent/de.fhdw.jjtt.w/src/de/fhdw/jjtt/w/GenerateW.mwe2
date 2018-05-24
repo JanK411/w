@@ -44,13 +44,6 @@ Workflow {
 			name = "de.fhdw.jjtt.w.W"
 			fileExtensions = "w"
 			referencedResource = "platform:/resource/${projectName}/model/custom/W.genmodel"
-//			TODO herausfinden wofür die fragments da sind ~ oder halt eben auch nicht (:
-//			ok, scheinbar tatsächlich gar nicht -> nachdem es zu Jans belustigung geführt hat, darf er das gern löschen <3
-//			fragment = ecore2xtext.Ecore2XtextValueConverterServiceFragment2 auto-inject {}
-//			fragment = org.eclipse.xtext.generator.adapter.FragmentAdapter {
-//				fragment = org.eclipse.xtext.generator.ecore2xtext.FormatterFragment {}
-//			}
-
 			formatter = {
 				generateStub = true
 			}
