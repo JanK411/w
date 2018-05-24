@@ -11,50 +11,66 @@ import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import de.fhdw.jjtt.w.w.File
+import de.fhdw.jjtt.w.generator.WGenerator
 
 @RunWith(XtextRunner)
 @InjectWith(WInjectorProvider)
 class WParsingTest {
 	@Inject
-	ParseHelper<Program> parseHelper
+	ParseHelper<File> parseHelper
 
 	@Test
 	def void loadModel() {
 		val result = parseHelper.parse('''
-			While x != 6 do
-			y = x + 2
-			endwhile ;
-			x = y + 8
-		''')
-		println(result)
-		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
-	}
-
-	@Test
-	def void load() {
-		val result = parseHelper.parse('''
 		main() {
-			y = 13;
-			x = 5;
-			z = x;
-			multiply(x,y);
-			asdf(x)
+			x = 5 + 0;
+			y = 3 + 0;
+			multiply(x, y)
 		}
 		
-		/? dies ist eine Multiplikationsoperation ?/
-		multiply(x,y) {
-			y = x + 2
-		}
-		
-		asdf(x) {
-			multiply(x,y);
-			y= x+7
-		}
-			
-		''')
-		println(result)
-		Assert.assertNotNull(result)
-		Assert.assertTrue(result.eResource.errors.isEmpty)
+		multiply(f1, f2) {
+			copy(f1, f11);
+			copy(f2, f21);
+			while f21 != 0 do
+				f1 = f1 + f11;
+				f21 = f21 - 1;
+			endwhile
+		}''')
+
+		val gen = new WGenerator()
+		// TODO irgendwie das Output des Generats hier abspeichern in real
+		val real = "";
+		val expected = '''
+			public class asdf {
+				public static void main(String[] args) {
+				
+					Band x = Band.create();
+					Band y = Band.create();
+					TouringMachine.createSeq(
+						TouringMachine.createAdd(5,0,x),
+						TouringMachine.createSeq(
+							TouringMachine.createAdd(3,0,y),
+							createMultiplyMachine(x, y))
+						)
+					).run();
+				}
+				
+				public TouringMachine createMultiplyMachine(Band f1, Band f2) {
+					Band f11 = Band.create();
+					Band f21 = Band.create();
+					return TouringMachine.createSeq(
+						TouringMachine.createCopy(f1, f11),
+						TouringMachine.createSeq(
+							TouringMachine.createCopy(f2, f21)
+							TouringMachine.createWhile(f21, TouringMachine.createSeq(
+								TouringMachine.createAdd(f1, f11, f1),
+								TouringMachine.createSub(f21, Band.create(1), f21)
+							))
+						)
+					)
+				}
+			}
+		'''
 	}
 }

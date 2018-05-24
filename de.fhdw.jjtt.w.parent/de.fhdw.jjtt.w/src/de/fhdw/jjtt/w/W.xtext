@@ -17,7 +17,7 @@ UnnamedProgram:
 	Assignment | Sequence | Loop;
 
 Assignment:
-	toBeAssigned=Variable '=' var=ValueHavingThing op=Operator const=ValueHavingThing;
+	toBeAssigned=Variable '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
 
 ValueHavingThing:
 	Constant | Variable;

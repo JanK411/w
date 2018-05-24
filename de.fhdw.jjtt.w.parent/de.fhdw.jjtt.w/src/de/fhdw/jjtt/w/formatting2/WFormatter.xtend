@@ -17,8 +17,8 @@ class WFormatter extends AbstractFormatter2 {
 	def dispatch void format(Assignment assignment, extension IFormattableDocument document) {
 		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
 		assignment.getToBeAssigned.format;
-		assignment.getVar.format;
-		assignment.getConst.format;
+//		assignment.getVar.format;
+//		assignment.getConst.format;
 	}
 
 	def dispatch void format(Loop loop, extension IFormattableDocument document) {

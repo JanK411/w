@@ -3,12 +3,15 @@
  */
 package de.fhdw.jjtt.w.generator
 
+import de.fhdw.jjtt.w.w.Assignment
+import de.fhdw.jjtt.w.w.Loop
 import de.fhdw.jjtt.w.w.NamedProgram
-import de.fhdw.jjtt.w.w.UnnamedProgram
+import de.fhdw.jjtt.w.w.Sequence
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import de.fhdw.jjtt.w.w.File
 
 /**
  * Generates code from your model files on save.
@@ -35,7 +38,19 @@ class WGenerator extends AbstractGenerator {
 		}'''
 	}
 
-	def String generateUnnamedProgram(UnnamedProgram object) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	def dispatch String generateUnnamedProgram(Assignment assignment) {
+		if (assignment.op == '+') {
+			'''TouringMachine.createAdditionTouringMachine(«assignment.val1», «assignment.val2»)'''
+		} else if (assignment.op == '-') {
+			""
+		} else {
+			throw new UnsupportedOperationException('''The Operator [«assignment.op»] couldn't be parsed.''')
+		}
+	}
+
+	def dispatch String generateUnnamedProgram(Loop loop) {
+	}
+
+	def dispatch String generateUnnamedProgram(Sequence sequence) {
 	}
 }

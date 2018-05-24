@@ -5,18 +5,16 @@
   <eClassifiers xsi:type="ecore:EClass" name="Assignment" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="toBeAssigned" eType="#//Variable"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//ValueHavingThing"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="val1" eType="#//ValueHavingThing"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="const" eType="#//ValueHavingThing"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="val2" eType="#//ValueHavingThing"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//ValueHavingThing">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//ValueHavingThing">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constant" eSuperTypes="#//ValueHavingThing"/>
   <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="var" eType="#//Variable"
         containment="true"/>
@@ -31,7 +29,10 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="p2" eType="#//Program"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ValueHavingThing" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueHavingThing" abstract="true" interface="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedProgram" eSuperTypes="#//Program">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         iD="true"/>
