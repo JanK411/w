@@ -33,7 +33,7 @@ ValueHavingThing:
 	Constant | Variable;
 
 Loop:
-	'while' var=ID '!=' '0' 'do' prog=UnnamedProgram 'endwhile';
+	'while' var=ID '!=0' 'do' prog=UnnamedProgram 'endwhile';
 
 Sequence:
 	p1=(Assignment | Loop | Reference) ';' p2=(Sequence | Assignment | Loop | Reference);

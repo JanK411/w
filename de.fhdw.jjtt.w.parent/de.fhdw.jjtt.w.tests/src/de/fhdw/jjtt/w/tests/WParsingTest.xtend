@@ -32,12 +32,12 @@ class WParsingTest {
 		multiply(f1, f2) {
 			copy(f1, f11);
 			copy(f2, f21);
-			while f21 != 0 do
+			while f21 !=0 do
 				f1 = f1 + f11;
-				f21 = f21 - 1;
+				f21 = f21 - 1
 			endwhile
 		}''')
-		
+
 		Assert.assertEquals(2, result.programs)
 		Assert.assertNotNull(result.programs.findFirst[it.name == "main"])
 		Assert.assertNotNull(result.programs.findFirst[it.name == "multiply"])
@@ -57,7 +57,6 @@ class WParsingTest {
 			).run();
 		}'''
 //		Assert.assertEquals(expectedMain.trim, main.trim)
-
 //		val multiply = gen.generateProgram(result.programs.findFirst[it.name == "multiply"])
 		val expectedMultiply = '''
 		public TouringMachine createMultiplyMachine(Band f1, Band f2) {
