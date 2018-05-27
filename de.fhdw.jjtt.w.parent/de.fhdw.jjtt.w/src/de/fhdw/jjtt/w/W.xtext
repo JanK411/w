@@ -14,25 +14,26 @@ Constant:
 Operator:
 	'+' | '-';
 
-Program:
-	UnnamedProgram | NamedProgram;
-
 NamedProgram:
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
 	'}';
 
 UnnamedProgram:
-	Assignment | Sequence | Loop;
-
+	Sequence | Assignment | Loop | Reference;
+	
 Assignment:
-	toBeAssigned=Variable '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
+	toBeAssigned=ID '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
+	
+
+Reference:
+	name=ID '(' params+=ValueHavingThing? (',' params+=ValueHavingThing)* ')';
 
 ValueHavingThing:
 	Constant | Variable;
 
 Loop:
-	'while' var=Variable '!=' '0' 'do' prog=Program 'endwhile';
+	'while' var=ID '!=' '0' 'do' prog=UnnamedProgram 'endwhile';
 
 Sequence:
-	p1=(Assignment | Loop | NamedProgram) ';' p2=Program;
+	p1=(Assignment | Loop | Reference) ';' p2=(Sequence | Assignment | Loop | Reference);

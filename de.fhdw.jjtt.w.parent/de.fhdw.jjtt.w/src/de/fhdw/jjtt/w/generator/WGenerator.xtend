@@ -20,6 +20,7 @@ import org.eclipse.xtext.generator.IGeneratorContext
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class WGenerator extends AbstractGenerator {
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val path = resource.URI.path
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
@@ -61,20 +62,24 @@ class WGenerator extends AbstractGenerator {
 
 	def dispatch String generateProgram(Assignment assignment) {
 		if (assignment.op == '+') {
-			'''TouringMachine.createAdd(«assignment.val1», «assignment.val2», «assignment.toBeAssigned»)'''
+			'''TouringMachine.createAdd(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
+			'''
 		} else if (assignment.op == '-') {
-			'''TouringMachine.createSub(«assignment.val1», «assignment.val2», «assignment.toBeAssigned»)'''
+			'''TouringMachine.createSub(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
+			'''
 		} else {
 			throw new UnsupportedOperationException('''The Operator [«assignment.op»] couldn't be parsed.''')
 		}
 	}
 
 	def dispatch String generateProgram(Loop loop) {
-		'''TouringMachine.createWhile(«loop.^var», «generateProgram(loop.prog)»)'''
+		'''TouringMachine.createWhile(«loop.^var», «generateProgram(loop.prog)»)
+		'''
 	}
 
 	def dispatch String generateProgram(Sequence sequence) {
-		'''TouringMachine.createSeq(«generateProgram(sequence.p1)», «generateProgram(sequence.p2)»)'''
+		'''TouringMachine.createSeq(«generateProgram(sequence.p1)», «generateProgram(sequence.p2)»)
+		'''
 	}
 
 }
