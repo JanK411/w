@@ -7,8 +7,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="val2" eType="#//ValueHavingThing"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="toBeAssigned" lowerBound="1"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="toBeAssigned" unique="false"
+        lowerBound="1" eType="#//Variable" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Variable" eSuperTypes="#//ValueHavingThing">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -17,7 +17,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="Loop" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="prog" eType="#//UnnamedProgram"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="var" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="var" unique="false" lowerBound="1"
+        eType="#//Variable" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sequence" eSuperTypes="#//UnnamedProgram">
     <eStructuralFeatures xsi:type="ecore:EReference" name="p1" eType="#//UnnamedProgram"

@@ -23,7 +23,7 @@ UnnamedProgram:
 	Sequence | Assignment | Loop | Reference;
 	
 Assignment:
-	toBeAssigned=ID '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
+	toBeAssigned=Variable '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
 	
 
 Reference:
@@ -33,7 +33,7 @@ ValueHavingThing:
 	Constant | Variable;
 
 Loop:
-	'while' var=ID '!=0' 'do' prog=UnnamedProgram 'endwhile';
+	'while' var=Variable '!=0' 'do' prog=UnnamedProgram 'endwhile';
 
 Sequence:
 	p1=(Assignment | Loop | Reference) ';' p2=(Sequence | Assignment | Loop | Reference);

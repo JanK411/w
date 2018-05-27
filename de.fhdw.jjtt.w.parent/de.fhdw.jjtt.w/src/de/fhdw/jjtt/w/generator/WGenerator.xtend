@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import de.fhdw.jjtt.w.w.Reference
 
 /**
  * Generates code from your model files on save.
@@ -21,69 +22,69 @@ import org.eclipse.xtext.generator.IGeneratorContext
  */
 class WGenerator extends AbstractGenerator {
 	
-	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
-		println("mimimi")
+	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		val path = resource.URI.path
+		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
+		val content = '''
+			public class «fileName» {
+				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
+					«generateNamedProgram(p)»
+				«ENDFOR»
+			}
+		'''
+		fsa.generateFile('''«fileName».java''', content)
+	}
+
+	def String generateParams(EList<Variable> list) {
+		val iterator = list.iterator
+		var ret = ""
+		while (iterator.hasNext) {
+			ret += iterator.next
+			if (iterator.hasNext) {
+				ret += ", "
+			}
+		}
+		ret
+	}
+
+	def String generateNamedProgram(NamedProgram program) {
+		if (program.name == "main" && program.params.size == 0) {
+			'''
+			public static void main(String[] args) {
+				«generateProgram(program.getProgram)»
+			}'''
+		} else {
+			'''
+			public void create«program.getName.toFirstUpper»Machine(«generateParams(program.params)») {
+				«generateProgram(program.getProgram)»
+			}'''
+		}
 	}
 	
-//	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		val path = resource.URI.path
-//		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
-//		val content = '''
-//			public class «fileName» {
-//				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
-//					«generateProgram(p)»
-//				«ENDFOR»
-//			}
-//		'''
-//		fsa.generateFile('''«fileName».java''', content)
-//	}
-//
-//	def String generateParams(EList<Variable> list) {
-//		val iterator = list.iterator
-//		var ret = ""
-//		while (iterator.hasNext) {
-//			ret += iterator.next
-//			if (iterator.hasNext) {
-//				ret += ", "
-//			}
-//		}
-//		ret
-//	}
-//
-//	def dispatch String generateProgram(NamedProgram program) {
-//		if (program.name == "main" && program.params.size == 0) {
-//			'''
-//			public static void main(String[] args) {
-//				«generateProgram(program.getProgram)»
-//			}'''
-//		} else {
-//			'''
-//			public void create«program.getName.toFirstUpper»Machine(«generateParams(program.params)») {
-//				«generateProgram(program.getProgram)»
-//			}'''
-//		}
-//	}
-//
-//	def dispatch String generateProgram(Assignment assignment) {
-//		if (assignment.op == '+') {
-//			'''TouringMachine.createAdd(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
-//			'''
-//		} else if (assignment.op == '-') {
-//			'''TouringMachine.createSub(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
-//			'''
-//		} else {
-//			throw new UnsupportedOperationException('''The Operator [«assignment.op»] couldn't be parsed.''')
-//		}
-//	}
-//
-//	def dispatch String generateProgram(Loop loop) {
-//		'''TouringMachine.createWhile(«loop.^var», «generateProgram(loop.prog)»)
-//		'''
-//	}
-//
-//	def dispatch String generateProgram(Sequence sequence) {
-//		'''TouringMachine.createSeq(«generateProgram(sequence.p1)», «generateProgram(sequence.p2)»)
-//		'''
-//	}
+	def dispatch String generateProgram(Reference reference) {
+		//TODO
+	}
+
+	def dispatch String generateProgram(Assignment assignment) {
+		if (assignment.op == '+') {
+			'''TouringMachine.createAdd(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
+			'''
+		} else if (assignment.op == '-') {
+			'''TouringMachine.createSub(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
+			'''
+		} else {
+			throw new UnsupportedOperationException('''The Operator [«assignment.op»] couldn't be parsed.''')
+		}
+	}
+
+	def dispatch String generateProgram(Loop loop) {
+		'''TouringMachine.createWhile(«loop.^var», «generateProgram(loop.prog)»)
+		'''
+	}
+
+	def dispatch String generateProgram(Sequence sequence) {
+		'''TouringMachine.createSeq(«generateProgram(sequence.p1)», «generateProgram(sequence.p2)»)
+		'''
+	}
 
 }
