@@ -4,21 +4,33 @@
 package de.fhdw.jjtt.w.tests
 
 import com.google.inject.Inject
-import de.fhdw.jjtt.w.w.Program
+import de.fhdw.jjtt.w.generator.WGenerator
+import de.fhdw.jjtt.w.w.File
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import de.fhdw.jjtt.w.w.File
-import de.fhdw.jjtt.w.generator.WGenerator
 
 @RunWith(XtextRunner)
 @InjectWith(WInjectorProvider)
 class WParsingTest {
 	@Inject
 	ParseHelper<File> parseHelper
+	var gen = new WGenerator()
+
+	@Test
+	def void testAddierer() {
+		val input = parseHelper.parse('''
+		main() {
+			x = 5 + 3
+		}''')
+		
+		val main = gen.generateNamedProgram(input.programs.findFirst[it.name=="main"])
+		println(main)
+		
+	}
 
 	@Test
 	def void loadModel() {
@@ -42,7 +54,6 @@ class WParsingTest {
 		Assert.assertNotNull(result.programs.findFirst[it.name == "main"])
 		Assert.assertNotNull(result.programs.findFirst[it.name == "multiply"])
 
-		val gen = new WGenerator()
 //		val main = gen.generateProgram(result.programs.findFirst[it.name == "main"])
 		val expectedMain = '''
 		public static void main(String[] args) {

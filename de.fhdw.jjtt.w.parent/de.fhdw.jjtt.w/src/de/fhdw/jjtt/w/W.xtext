@@ -26,7 +26,7 @@ Assignment:
 	toBeAssigned=Variable '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
 	
 
-Reference:
+Reference: 
 	name=ID '(' params+=ValueHavingThing? (',' params+=ValueHavingThing)* ')';
 
 ValueHavingThing:
