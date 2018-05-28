@@ -3,7 +3,6 @@
  */
 package de.fhdw.jjtt.w.generator
 
-import static extension de.fhdw.jjtt.w.Utils.*
 import de.fhdw.jjtt.w.w.Assignment
 import de.fhdw.jjtt.w.w.Loop
 import de.fhdw.jjtt.w.w.NamedProgram
@@ -17,6 +16,9 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+
+import static extension de.fhdw.jjtt.w.Utils.*
+import static extension de.fhdw.jjtt.w.XUtils.*
 
 /**
  * Generates code from your model files on save.
@@ -62,8 +64,9 @@ class WGenerator extends AbstractGenerator {
 			}'''
 		} else {
 			'''
-			public void create«program.getName.toFirstUpper»Machine(«generateParams(program.params)») {
-				«generateProgram(program.getProgram)»
+			public TuringMaschine create«program.getName.toFirstUpper»Machine(«generateParams(program.params)») {
+				«declareVariables(getVariables(program.program))»
+				return «generateProgram(program.getProgram)»
 			}'''
 		}
 	}
@@ -100,11 +103,11 @@ class WGenerator extends AbstractGenerator {
 		val ret = new StringBuilder;
 		list.stream.distinct.forEach [
 			it -> {
-				ret.append('''String «it»;''')
+				ret.append('''ChangeableBand «it» = ChangeableBand.create();''')
 				ret.append("\n")
 			}
 		]
-
+		ret
 	}
 
 	def dispatch String generateProgram(Reference reference) {
@@ -112,15 +115,9 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {
-		if (assignment.op == '+') {
-			'''TouringMachine.createAdd(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
-			'''
-		} else if (assignment.op == '-') {
-			'''TouringMachine.createSub(«assignment.val1.value», «assignment.val2.value», «assignment.toBeAssigned»)
-			'''
-		} else {
-			throw new UnsupportedOperationException('''The Operator [«assignment.op»] couldn't be parsed.''')
-		}
+		'''
+			TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»().createStartKonfiguration(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»)
+		'''
 	}
 
 	def dispatch String generateProgram(Loop loop) {

@@ -24,7 +24,8 @@ class WParsingTest {
 	def testAddierer() {
 		val input = parseHelper.parse('''
 		main() {
-			x = 5 + 3
+			x = 5 + 3;
+			y = 6 - x;
 		}''')
 
 		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "main"])

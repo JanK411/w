@@ -8,4 +8,5 @@ public class Utils {
 	public static <T> List<T> concat(List<T>... lists) {
 		return Stream.of(lists).flatMap(List::stream).collect(Collectors.toList());
 	}
+
 }
