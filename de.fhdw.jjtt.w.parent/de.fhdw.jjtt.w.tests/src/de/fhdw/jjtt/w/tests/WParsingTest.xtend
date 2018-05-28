@@ -4,14 +4,14 @@
 package de.fhdw.jjtt.w.tests
 
 import com.google.inject.Inject
-import de.fhdw.jjtt.w.generator.WGenerator
-import de.fhdw.jjtt.w.w.File
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+import de.fhdw.jjtt.w.w.File
+import de.fhdw.jjtt.w.generator.WGenerator
 
 @RunWith(XtextRunner)
 @InjectWith(WInjectorProvider)
