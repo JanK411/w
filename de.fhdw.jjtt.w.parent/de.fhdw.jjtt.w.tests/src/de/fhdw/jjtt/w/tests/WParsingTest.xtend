@@ -21,19 +21,25 @@ class WParsingTest {
 	var gen = new WGenerator()
 
 	@Test
-	def void testAddierer() {
+	def testAddierer() {
 		val input = parseHelper.parse('''
 		main() {
 			x = 5 + 3
 		}''')
-		
-		val main = gen.generateNamedProgram(input.programs.findFirst[it.name=="main"])
+
+		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "main"])
 		println(main)
-		
+
+		val expected = '''
+		public static void main(String[] args){
+			String x;
+			x = TuringMaschinen.createAdd().simuliere("7", "3", "").iterator().next().getLetztesBand().toString();
+		}'''
+
 	}
 
 	@Test
-	def void loadModel() {
+	def loadModel() {
 		val result = parseHelper.parse('''
 		main() {
 			x = 5 + 0;
