@@ -21,18 +21,21 @@ import de.fhdw.jjtt.w.w.Reference
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class WGenerator extends AbstractGenerator {
-	
+
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val path = resource.URI.path
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
 		val content = '''
+			import turingmaschine.*;
+			import de.fhdw.jjtt.w.w.*;
+			
 			public class «fileName» {
 				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
 					«generateNamedProgram(p)»
 				«ENDFOR»
 			}
 		'''
-		fsa.generateFile('''«fileName».java''', content)
+		fsa.generateFile('''../src/main/java/«fileName».java''', content)
 	}
 
 	def String generateParams(EList<Variable> list) {
@@ -60,9 +63,9 @@ class WGenerator extends AbstractGenerator {
 			}'''
 		}
 	}
-	
+
 	def dispatch String generateProgram(Reference reference) {
-		//TODO
+		// TODO
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {

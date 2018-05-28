@@ -4,7 +4,6 @@
 package de.fhdw.jjtt.w.tests
 
 import com.google.inject.Inject
-import de.fhdw.jjtt.w.w.Program
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
