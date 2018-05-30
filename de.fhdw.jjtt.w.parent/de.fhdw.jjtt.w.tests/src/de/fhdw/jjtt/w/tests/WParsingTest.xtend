@@ -4,14 +4,17 @@
 package de.fhdw.jjtt.w.tests
 
 import com.google.inject.Inject
+import de.fhdw.jjtt.w.generator.WGenerator
+import de.fhdw.jjtt.w.w.File
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
+
+import static org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import de.fhdw.jjtt.w.w.File
-import de.fhdw.jjtt.w.generator.WGenerator
+
+import static extension de.fhdw.jjtt.w.XUtils.*
 
 @RunWith(XtextRunner)
 @InjectWith(WInjectorProvider)
@@ -31,11 +34,46 @@ class WParsingTest {
 		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "main"])
 		println(main)
 
-		val expected = '''
-		public static void main(String[] args){
-			String x;
-			x = TuringMaschinen.createAdd().simuliere("7", "3", "").iterator().next().getLetztesBand().toString();
+		val expected = '''public static void main(String[] args) {
+			ChangeableBand x = ChangeableBand.create();
+			ChangeableBand y = ChangeableBand.create();
+			TuringMaschinen.createSeq(
+				TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("3"), x)),
+				TuringMaschinen.createSub(ChangeableBand.create("6"), x, y))
+			)
+			.simuliere();
 		}'''
+
+		assertEquals(expected.trimWhitespaces, main.trimWhitespaces);
+
+	}
+
+	@Test
+	def testMultiply() {
+		val input = parseHelper.parse('''
+		multiply(f1, f2) {
+			copy(f1, f11);
+			copy(f2, f21);
+				while f21 !=0 do
+					f1 = f1 + f11;
+					f21 = f21 - 1
+				endwhile
+		}''')
+
+		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "multiply"])
+		println(main)
+
+		val expected = '''public static void main(String[] args) {
+			ChangeableBand x = ChangeableBand.create();
+			ChangeableBand y = ChangeableBand.create();
+			TuringMaschinen.createSeq(
+				TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("3"), x)),
+				TuringMaschinen.createSub(ChangeableBand.create("6"), x, y))
+			)
+			.simuliere();
+		}'''
+
+		assertEquals(expected.trimWhitespaces, main.trimWhitespaces);
 
 	}
 
@@ -57,9 +95,9 @@ class WParsingTest {
 			endwhile
 		}''')
 
-		Assert.assertEquals(2, result.programs)
-		Assert.assertNotNull(result.programs.findFirst[it.name == "main"])
-		Assert.assertNotNull(result.programs.findFirst[it.name == "multiply"])
+		assertEquals(2, result.programs)
+		assertNotNull(result.programs.findFirst[it.name == "main"])
+		assertNotNull(result.programs.findFirst[it.name == "multiply"])
 
 //		val main = gen.generateProgram(result.programs.findFirst[it.name == "main"])
 		val expectedMain = '''

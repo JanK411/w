@@ -9,7 +9,6 @@ import de.fhdw.jjtt.w.w.NamedProgram
 import de.fhdw.jjtt.w.w.Reference
 import de.fhdw.jjtt.w.w.Sequence
 import de.fhdw.jjtt.w.w.Variable
-import java.util.ArrayList
 import java.util.List
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.resource.Resource
@@ -17,7 +16,6 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 
-import static extension de.fhdw.jjtt.w.Utils.*
 import static extension de.fhdw.jjtt.w.XUtils.*
 
 /**
@@ -59,44 +57,16 @@ class WGenerator extends AbstractGenerator {
 		if (program.name == "main" && program.params.size == 0) {
 			'''
 			public static void main(String[] args) {
-				«declareVariables(getVariables(program.program))»
-				«generateProgram(program.program)»
+				«declareVariables(program.program.getVariables)»
+				«generateProgram(program.program)».simuliere();
 			}'''
 		} else {
 			'''
-			public TuringMaschine create«program.getName.toFirstUpper»Machine(«generateParams(program.params)») {
-				«declareVariables(getVariables(program.program))»
+			public TuringMaschine create«program.getName.toFirstUpper»Maschine(«generateParams(program.params)») {
+				«declareVariables(program.program.getVariables)»
 				return «generateProgram(program.getProgram)»
 			}'''
 		}
-	}
-
-	def dispatch List<String> getVariables(Assignment a) {
-		// TODO Parameter des aktuellen namedPrograms müssen hier noch berücksichtigt werden
-		val ret = new ArrayList<String>
-		ret.add(a.toBeAssigned.name)
-
-		val val1 = a.val1
-		if(val1 instanceof Variable) ret.add(val1.name)
-
-		val val2 = a.val2
-		if(val2 instanceof Variable) ret.add(val2.name)
-
-		ret
-	}
-
-	def dispatch List<String> getVariables(Sequence s) {
-		getVariables(s.p1).concat(getVariables(s.p2))
-	}
-
-	def dispatch List<String> getVariables(Reference r) {
-		r.params.filter[it instanceof Variable].map[(it as Variable).name].toList
-	}
-
-	def dispatch List<String> getVariables(Loop l) {
-		val ret = getVariables(l.prog)
-		ret.add(l.^var.name)
-		ret
 	}
 
 	def declareVariables(List<String> list) {
@@ -116,8 +86,7 @@ class WGenerator extends AbstractGenerator {
 
 	def dispatch String generateProgram(Assignment assignment) {
 		'''
-			TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»().createStartKonfiguration(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»)
-		'''
+			TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»))'''
 	}
 
 	def dispatch String generateProgram(Loop loop) {
@@ -126,7 +95,11 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Sequence sequence) {
-		'''TouringMachine.createSeq(«generateProgram(sequence.p1)», «generateProgram(sequence.p2)»)
+		'''
+		TuringMaschinen.createSeq(
+			«generateProgram(sequence.p1)»,
+			«generateProgram(sequence.p2)»
+		)
 		'''
 	}
 
