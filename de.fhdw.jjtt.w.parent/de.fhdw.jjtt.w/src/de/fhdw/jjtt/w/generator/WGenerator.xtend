@@ -8,9 +8,7 @@ import de.fhdw.jjtt.w.w.Loop
 import de.fhdw.jjtt.w.w.NamedProgram
 import de.fhdw.jjtt.w.w.Reference
 import de.fhdw.jjtt.w.w.Sequence
-import de.fhdw.jjtt.w.w.Variable
 import java.util.List
-import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
@@ -30,7 +28,8 @@ class WGenerator extends AbstractGenerator {
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
 		val content = '''
 			import turingmaschine.*;
-			import de.fhdw.jjtt.w.w.*;
+			import turingmaschine.band.*;
+
 			
 			public class «fileName» {
 				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
@@ -41,30 +40,18 @@ class WGenerator extends AbstractGenerator {
 		fsa.generateFile('''../src/main/java/«fileName».java''', content)
 	}
 
-	def String generateParams(EList<Variable> list) {
-		val iterator = list.iterator
-		var ret = ""
-		while (iterator.hasNext) {
-			ret += iterator.next
-			if (iterator.hasNext) {
-				ret += ", "
-			}
-		}
-		ret
-	}
-
 	def String generateNamedProgram(NamedProgram program) {
 		if (program.name == "main" && program.params.size == 0) {
 			'''
 			public static void main(String[] args) {
-				«declareVariables(program.program.getVariables)»
+				«declareVariables(program.program.variables)»
 				«generateProgram(program.program)».simuliere();
 			}'''
 		} else {
 			'''
-			public TuringMaschine create«program.getName.toFirstUpper»Maschine(«generateParams(program.params)») {
-				«declareVariables(program.program.getVariables)»
-				return «generateProgram(program.getProgram)»
+			public static TuringMaschineMitBand create«program.getName.toFirstUpper»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
+				«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
+				return «generateProgram(program.getProgram)»;
 			}'''
 		}
 	}
@@ -81,26 +68,23 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Reference reference) {
-		// TODO
+		'''«IF reference.isInBuild»TuringMaschinen.«ENDIF»create«reference.name.toFirstUpper»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {
-		'''
-			TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»))'''
+		'''TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»)'''
 	}
 
 	def dispatch String generateProgram(Loop loop) {
-		'''TouringMachine.createWhile(«loop.^var», «generateProgram(loop.prog)»)
-		'''
+		'''TuringMaschinen.createWhile(«loop.^var.valueHavingThingToString», «generateProgram(loop.prog)»)'''
 	}
 
 	def dispatch String generateProgram(Sequence sequence) {
 		'''
 		TuringMaschinen.createSeq(
-			«generateProgram(sequence.p1)»,
-			«generateProgram(sequence.p2)»
-		)
-		'''
+				«generateProgram(sequence.p1)»,
+				«generateProgram(sequence.p2)»
+		)'''
 	}
 
 }

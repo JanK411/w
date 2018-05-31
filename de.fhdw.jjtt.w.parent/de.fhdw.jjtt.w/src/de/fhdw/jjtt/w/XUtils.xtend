@@ -11,20 +11,21 @@ import java.util.List
 import static extension de.fhdw.jjtt.w.Utils.*
 
 class XUtils {
-	static def dispatch valueHavingThingToString(Variable v) '''«v.name»'''
+	static def dispatch String valueHavingThingToString(Variable v) '''«v.name»'''
 
-	static def dispatch valueHavingThingToString(Constant c) '''ChangeableBand.create("«c.value»")'''
+	static def dispatch String valueHavingThingToString(Constant c) '''ChangeableBand.create("«c.value»")'''
 
 	static def dispatch List<String> getVariables(Assignment a) {
-		// TODO Parameter des aktuellen namedPrograms müssen hier noch berücksichtigt werden
 		val ret = new ArrayList<String>
 		ret.add(a.toBeAssigned.name)
 
 		val val1 = a.val1
-		if(val1 instanceof Variable) ret.add(val1.name)
-
+		if (val1 instanceof Variable)
+			ret.add(val1.name)
+			
 		val val2 = a.val2
-		if(val2 instanceof Variable) ret.add(val2.name)
+		if (val2 instanceof Variable)
+			ret.add(val2.name)
 
 		ret
 	}
@@ -47,5 +48,9 @@ class XUtils {
 		var a = s
 		a = a.replaceAll("\\s{2,}", " ").trim()
 		a = a.replaceAll("\\s", " ").trim()
+	}
+
+	static def isInBuild(Reference r) {
+		r.name == "copy" && r.params.size == 2
 	}
 }
