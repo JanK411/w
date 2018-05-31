@@ -15,6 +15,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 
 import static extension de.fhdw.jjtt.w.XUtils.*
+import java.util.stream.Collectors
 
 /**
  * Generates code from your model files on save.
@@ -29,7 +30,7 @@ class WGenerator extends AbstractGenerator {
 		val content = '''
 			import turingmaschine.*;
 			import turingmaschine.band.*;
-
+			
 			
 			public class «fileName» {
 				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
@@ -46,6 +47,7 @@ class WGenerator extends AbstractGenerator {
 			public static void main(String[] args) {
 				«declareVariables(program.program.variables)»
 				«generateProgram(program.program)».simuliere();
+				«printAllVariables(program.program.variables)»
 			}'''
 		} else {
 			'''
@@ -54,6 +56,12 @@ class WGenerator extends AbstractGenerator {
 				return «generateProgram(program.getProgram)»;
 			}'''
 		}
+	}
+
+	def printAllVariables(List<String> strings) {
+		'''«FOR s : strings.stream.distinct.collect(Collectors.toList)»
+		System.out.println("«s»" + " = " + «s»);
+		«ENDFOR»'''
 	}
 
 	def declareVariables(List<String> list) {
