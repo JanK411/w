@@ -7,11 +7,10 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
 
 /**
  * Custom quickfixes.
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class WQuickfixProvider extends DefaultQuickfixProvider {
-
 //	@Fix(WValidator.INVALID_NAME)
 //	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
 //		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [

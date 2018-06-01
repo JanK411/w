@@ -3,23 +3,34 @@
  */
 package de.fhdw.jjtt.w.validation
 
+import de.fhdw.jjtt.w.w.File
+import de.fhdw.jjtt.w.w.Reference
+import de.fhdw.jjtt.w.w.WPackage
+import org.eclipse.xtext.validation.Check
+
+import static extension org.eclipse.xtext.EcoreUtil2.*
 
 /**
  * This class contains custom validation rules. 
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
 class WValidator extends AbstractWValidator {
-	
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					WPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
-	
+
+	public static val DEAD_REFERENCE_NAME = 'deadReferenceName'
+
+	public static val DEAD_REFERENCE_PARAMS = 'deadReferenceParams'
+
+	@Check
+	def checkDeadEnd(Reference r) {
+		if(r.name == 'copy' && r.params.size == 2) return
+		val matchingPrograms = r.getContainerOfType(File).programs.filter[it.name == r.name]
+		if (matchingPrograms.empty)
+			error('''Kein Programm namens «r.name» gefunden''', WPackage.Literals.REFERENCE__NAME, DEAD_REFERENCE_NAME)
+		else if (!matchingPrograms.exists[r.params.size == it.params.size]) {
+			error('''Die Parameter von «r.name»(«r.params») stimmen nicht mit denen des Programms «r.name» überein''',
+				WPackage.Literals.REFERENCE__PARAMS, DEAD_REFERENCE_PARAMS)
+		}
+	}
+
 }

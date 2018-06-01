@@ -47,6 +47,9 @@ Workflow {
 			formatter = {
 				generateStub = true
 			}
+			quickFixProvider = {
+				generateStub = true
+			}
 			parserGenerator = {
 				options = {
 					ignoreCase = true
