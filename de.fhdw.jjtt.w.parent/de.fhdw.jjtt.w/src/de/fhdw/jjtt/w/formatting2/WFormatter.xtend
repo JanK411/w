@@ -5,8 +5,7 @@ package de.fhdw.jjtt.w.formatting2
 
 import com.google.inject.Inject
 import de.fhdw.jjtt.w.services.WGrammarAccess
-import de.fhdw.jjtt.w.w.Assignment
-import de.fhdw.jjtt.w.w.Loop
+import de.fhdw.jjtt.w.w.NamedProgram
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
 
@@ -14,19 +13,11 @@ class WFormatter extends AbstractFormatter2 {
 	
 	@Inject extension WGrammarAccess
 
-	def dispatch void format(Assignment assignment, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		assignment.getToBeAssigned.format;
-//		assignment.getVar.format;
-//		assignment.getConst.format;
+	def dispatch void format(NamedProgram p, extension IFormattableDocument document) {
+		interior(
+			p.regionFor.keyword("{").append[newLine],
+			p.regionFor.keyword("}"),
+			[indent]
+		)
 	}
-
-	def dispatch void format(Loop loop, extension IFormattableDocument document) {
-		// TODO: format HiddenRegions around keywords, attributes, cross references, etc. 
-		loop.getVar.format;
-//		loop.getConst.format;
-		loop.getProg.format;
-	}
-	
-	// TODO: implement for Sequence
 }
