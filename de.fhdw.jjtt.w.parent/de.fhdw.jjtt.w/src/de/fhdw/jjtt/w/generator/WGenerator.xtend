@@ -68,7 +68,7 @@ class WGenerator extends AbstractGenerator {
 		val ret = new StringBuilder;
 		list.stream.distinct.forEach [
 			it -> {
-				ret.append('''ChangeableBand «it» = ChangeableBand.create();''')
+				ret.append('''ChangeableBand «it» = ChangeableBand.create("0");''')
 				ret.append("\n")
 			}
 		]
