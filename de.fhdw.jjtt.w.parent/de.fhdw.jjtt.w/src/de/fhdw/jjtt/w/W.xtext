@@ -17,8 +17,15 @@ Operator:
 NamedProgram:
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
-	(run ?= '!')?
+	(
+		run ?= '!'
+		assertions+=Assertion*
+	)?
 	'}';
+
+Assertion:
+	'assert''('expected=Constant','real=Variable')'
+;
 
 UnnamedProgram:
 	Sequence | Assignment | Loop | Reference;

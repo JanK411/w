@@ -16,6 +16,8 @@ import org.eclipse.xtext.generator.IGeneratorContext
 
 import static extension de.fhdw.jjtt.w.XUtils.*
 import java.util.stream.Collectors
+import org.eclipse.emf.common.util.EList
+import de.fhdw.jjtt.w.w.Assertion
 
 /**
  * Generates code from your model files on save.
@@ -29,9 +31,9 @@ class WGenerator extends AbstractGenerator {
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
 		val content = '''
 			import org.junit.Test;
+			import static org.junit.Assert.assertEquals;
 			import turingmaschine.*;
 			import turingmaschine.band.*;
-			
 			
 			public class «fileName» {
 				«FOR p : resource.allContents.toIterable.filter(NamedProgram)»
@@ -45,12 +47,17 @@ class WGenerator extends AbstractGenerator {
 	def String generateNamedProgram(NamedProgram program) {
 		'''
 		«IF program.run»@Test«ENDIF»
-		public static «IF program.run»void«ELSE»TuringMaschineMitBand«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
+		public «IF program.run»void«ELSE»TuringMaschineMitBand«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
 			«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
-			«IF program.run»«generateProgram(program.program)».simuliere()
-			«ELSE»return «generateProgram(program.program)»
-			«ENDIF»;
+			«IF program.run»«generateProgram(program.program)».simuliere();
+			«program.assertions.declareAssertions»
+			«ELSE»return «generateProgram(program.program)»;
+			«ENDIF»
 		}'''
+	}
+
+	def declareAssertions(EList<Assertion> assertions) {
+		assertions.map['''assertEquals(Integer.valueOf(«it.expected.value»), Integer.valueOf(«it.real.name».toString()));'''].reduce[s1, s2|s1 + "\n" + s2]
 	}
 
 	def printAllVariables(List<String> strings) {
