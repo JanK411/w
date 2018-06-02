@@ -90,7 +90,7 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Loop loop) {
-		'''TuringMaschinen.createWhile(«loop.^var.valueHavingThingToString», «generateProgram(loop.prog)»)'''
+		'''TuringMaschinen.createWhile«IF loop.op == '==0'»Equal«ELSE»NotEqual«ENDIF»(«loop.^var.valueHavingThingToString», «generateProgram(loop.prog)»)'''
 	}
 
 	def dispatch String generateProgram(Sequence sequence) {

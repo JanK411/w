@@ -20,7 +20,8 @@ NamedProgram:
 	outputs+=Output*
 	'}';
 
-Output:Assertion|Print;
+Output:
+	Assertion | Print;
 
 Print:
 	'print' '(' variable=Variable ')';
@@ -41,7 +42,7 @@ ValueHavingThing:
 	Constant | Variable;
 
 Loop:
-	'while' var=Variable '!=0' 'do' prog=UnnamedProgram 'endwhile';
+	'while' var=Variable op=('!=0' | '==0') 'do' prog=UnnamedProgram 'endwhile';
 
 Sequence:
 	p1=(Assignment | Loop | Reference) ';' p2=(Sequence | Assignment | Loop | Reference);
