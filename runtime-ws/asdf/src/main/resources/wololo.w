@@ -1,5 +1,4 @@
 
-
 testAdd1() {
 	x = x + x
 	print(x)
@@ -14,7 +13,6 @@ testAdd3() {
 	assert(5, x)
 }
 
-
 testDivide() {
 	x = 15 + 0;
 	y = 3 + 0;
@@ -23,11 +21,16 @@ testDivide() {
 
 }
 
+testDivide2() {
+	a = 15 + 0;
+	divide(a, a, a)
+	assert(1, a)
+}
 
 testMultiply() {
 	x = 5 + 0;
 	y = 3 + 0;
-	multiply(x, y, result) 
+	multiply(x, y, result)
 	assert(15, result)
 }
 
@@ -39,7 +42,6 @@ multiply(f1, f2, result) {
 	endwhile
 }
 
-
 programmAusSkriptSeite23() {
 	x1 = x0 + 5;
 	while x1 !=0 do
@@ -49,9 +51,10 @@ programmAusSkriptSeite23() {
 }
 
 divide(f1, f2, result) {
-	copy(f1, f11);
+	copy(f1, f11) ;
 	while f11 !=0 do
 		f11 = f11 - f2;
-		result = result + 1
-	endwhile
+		newRes = newRes + 1
+	endwhile;
+	result = newRes + 0
 }
