@@ -37,10 +37,8 @@
         eType="#//UnnamedProgram" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
         eType="#//Variable" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="run" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
-        defaultValueLiteral="false"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="assertions" upperBound="-1"
-        eType="#//Assertion" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outputs" upperBound="-1"
+        eType="#//Output" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnnamedProgram" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="File">
@@ -53,10 +51,15 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="params" upperBound="-1"
         eType="#//ValueHavingThing" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Assertion">
+  <eClassifiers xsi:type="ecore:EClass" name="Assertion" eSuperTypes="#//Output">
     <eStructuralFeatures xsi:type="ecore:EReference" name="expected" lowerBound="1"
         eType="#//Constant" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="real" lowerBound="1" eType="#//Variable"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Output" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Print" eSuperTypes="#//Output">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1"
+        eType="#//Variable" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
