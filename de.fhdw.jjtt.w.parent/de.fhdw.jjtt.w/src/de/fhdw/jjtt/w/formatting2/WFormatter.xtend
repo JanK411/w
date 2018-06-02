@@ -28,7 +28,7 @@ class WFormatter extends AbstractFormatter2 {
 		)
 		p.regionFor.feature(WPackage.Literals.NAMED_PROGRAM__NAME).prepend[setNewLines(1, 2, 2)]
 		p.regionFor.keyword("(").prepend[noSpace]
-		p.allRegionsFor.keyword(",").prepend[noSpace].append[oneSpace]
+		p.allRegionsFor.keywords(",").forEach[it.prepend[noSpace].append[oneSpace]]
 		p.regionFor.keyword(")").prepend[noSpace].append[oneSpace]
 		p.program.format
 		p.outputs.forEach[it.format]
