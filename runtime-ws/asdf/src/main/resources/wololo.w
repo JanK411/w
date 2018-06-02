@@ -27,11 +27,9 @@ testDivide() {
 
 testDivide2() {
 	a = 15 + 0;
-	divide(a, a,a)
+	divide(a, a, a)
 	assert(1, a)
-	print(a)
 }
-
 testMultiply() {
 	x = 5 + 0;
 	y = 3 + 0;
@@ -66,9 +64,10 @@ programmAusSkriptSeite23() {
 }
 
 divide(f1, f2, result) {
-	copy(f1, f11);
+	copy(f1, f11) ;
 	while f11 !=0 do
 		f11 = f11 - f2;
-		result = result + 1
-	endwhile
+		newRes = newRes + 1
+	endwhile;
+	result = newRes + 0
 }
