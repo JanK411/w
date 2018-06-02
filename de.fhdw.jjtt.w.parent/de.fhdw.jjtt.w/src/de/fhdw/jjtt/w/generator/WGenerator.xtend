@@ -3,21 +3,21 @@
  */
 package de.fhdw.jjtt.w.generator
 
+import de.fhdw.jjtt.w.w.Assertion
 import de.fhdw.jjtt.w.w.Assignment
 import de.fhdw.jjtt.w.w.Loop
 import de.fhdw.jjtt.w.w.NamedProgram
+import de.fhdw.jjtt.w.w.Print
 import de.fhdw.jjtt.w.w.Reference
 import de.fhdw.jjtt.w.w.Sequence
 import java.util.List
+import java.util.stream.Collectors
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 
 import static extension de.fhdw.jjtt.w.XUtils.*
-import java.util.stream.Collectors
-import org.eclipse.emf.common.util.EList
-import de.fhdw.jjtt.w.w.Assertion
 
 /**
  * Generates code from your model files on save.
@@ -46,18 +46,22 @@ class WGenerator extends AbstractGenerator {
 
 	def String generateNamedProgram(NamedProgram program) {
 		'''
-		«IF program.run»@Test«ENDIF»
-		public «IF program.run»void«ELSE»TuringMaschineMitBand«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
+		«IF !program.outputs.empty»@Test«ENDIF»
+		public «IF program.outputs.empty»TuringMaschineMitBand«ELSE»void«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
 			«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
-			«IF program.run»«generateProgram(program.program)».simuliere();
-			«program.assertions.declareAssertions»
-			«ELSE»return «generateProgram(program.program)»;
+			«IF program.outputs.empty»return «generateProgram(program.program)»;
+			«ELSE»«generateProgram(program.program)».simuliere();
+			«program.outputs.map[it.declare].reduce[s1, s2|s1+"\n"+s2]»
 			«ENDIF»
 		}'''
 	}
 
-	def declareAssertions(EList<Assertion> assertions) {
-		assertions.map['''assertEquals(Integer.valueOf(«it.expected.value»), Integer.valueOf(«it.real.name».toString()));'''].reduce[s1, s2|s1 + "\n" + s2]
+	def dispatch String declare(Assertion a) {
+		'''assertEquals(Integer.valueOf(«a.expected.value»), Integer.valueOf(«a.real.name».toString()));'''
+	}
+
+	def dispatch String declare(Print p) {
+		'''System.out.println("«p.variable.name» = " + «p.variable.name».toString());'''
 	}
 
 	def printAllVariables(List<String> strings) {

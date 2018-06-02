@@ -17,24 +17,24 @@ Operator:
 NamedProgram:
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
-	(
-		run ?= '!'
-		assertions+=Assertion*
-	)?
+	outputs+=Output*
 	'}';
 
+Output:Assertion|Print;
+
+Print:
+	'print' '(' variable=Variable ')';
+
 Assertion:
-	'assert''('expected=Constant','real=Variable')'
-;
+	'assert' '(' expected=Constant ',' real=Variable ')';
 
 UnnamedProgram:
 	Sequence | Assignment | Loop | Reference;
-	
+
 Assignment:
 	toBeAssigned=Variable '=' val1=ValueHavingThing op=Operator val2=ValueHavingThing;
-	
 
-Reference: 
+Reference:
 	name=ID '(' params+=ValueHavingThing? (',' params+=ValueHavingThing)* ')';
 
 ValueHavingThing:
