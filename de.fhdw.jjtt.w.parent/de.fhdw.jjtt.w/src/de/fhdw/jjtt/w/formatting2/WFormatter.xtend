@@ -64,7 +64,7 @@ class WFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(Reference r, extension IFormattableDocument document) {
-		r.allRegionsFor.keyword(",").prepend[noSpace].append[oneSpace]
+		r.allRegionsFor.keywords(",").forEach[it.prepend[noSpace].append[oneSpace]]
 		r.allRegionsFor.keywords("(", ")").forEach[it.surround[noSpace]]
 	}
 
