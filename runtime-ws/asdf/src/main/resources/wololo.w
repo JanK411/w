@@ -1,17 +1,21 @@
 
-
 testAdd1() {
 	x = x + x
-	print(x)
+	assert(0, x)
 }
 testAdd2() {
 	x = 5 + x
 	assert(5, x)
-	print(x)
 }
 testAdd3() {
 	x = x + 5
 	assert(5, x)
+}
+testAdd4() {
+	y = 5 + 0;
+	x = y + y
+	assert(10, x)
+	assert(5, y)
 }
 
 testDivide() {
