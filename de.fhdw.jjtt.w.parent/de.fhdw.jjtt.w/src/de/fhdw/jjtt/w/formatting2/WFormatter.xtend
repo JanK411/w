@@ -5,14 +5,16 @@ package de.fhdw.jjtt.w.formatting2
 
 import com.google.inject.Inject
 import de.fhdw.jjtt.w.services.WGrammarAccess
+import de.fhdw.jjtt.w.w.Assertion
 import de.fhdw.jjtt.w.w.Assignment
 import de.fhdw.jjtt.w.w.Loop
 import de.fhdw.jjtt.w.w.NamedProgram
+import de.fhdw.jjtt.w.w.Print
 import de.fhdw.jjtt.w.w.Reference
 import de.fhdw.jjtt.w.w.Sequence
+import de.fhdw.jjtt.w.w.WPackage
 import org.eclipse.xtext.formatting2.AbstractFormatter2
 import org.eclipse.xtext.formatting2.IFormattableDocument
-import de.fhdw.jjtt.w.w.WPackage
 
 class WFormatter extends AbstractFormatter2 {
 
@@ -28,6 +30,18 @@ class WFormatter extends AbstractFormatter2 {
 		p.regionFor.keyword("(").prepend[noSpace]
 		p.regionFor.keywords(",", ")").forEach[it.prepend[noSpace].append[oneSpace]]
 		p.program.format
+		p.outputs.forEach[it.format]
+	}
+
+	def dispatch void format(Assertion a, extension IFormattableDocument doc) {
+		a.prepend[newLine]
+		a.regionFor.keywords('(', ')').forEach[it.surround[noSpace]]
+		a.regionFor.keyword(',').append[oneSpace]
+	}
+
+	def dispatch void format(Print p, extension IFormattableDocument doc) {
+		p.prepend[newLine]
+		p.regionFor.keywords('(', ')').forEach[it.surround[noSpace]]
 	}
 
 	def dispatch void format(Loop l, extension IFormattableDocument document) {
