@@ -71,6 +71,23 @@ testMod2() {
 	assert(2, r2)
 }
 
+testEuclid() {
+	euclid(6, 3,r)
+	assert(3, r)
+}
+testEuclid1() {
+	euclid(21, 14,r)
+	assert(7, r)
+}
+testEuclid2() {
+	euclid(199, 68,r)
+	assert(1, r)
+}
+testEuclid3() {
+	euclid(54, 24,r)
+	assert(6, r)
+}
+
 programmAusSkriptSeite23() {
 	x1 = x0 + 5;
 	while x1 !=0 do
