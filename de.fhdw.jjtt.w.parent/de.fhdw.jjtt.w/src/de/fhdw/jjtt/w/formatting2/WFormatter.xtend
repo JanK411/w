@@ -28,7 +28,8 @@ class WFormatter extends AbstractFormatter2 {
 		)
 		p.regionFor.feature(WPackage.Literals.NAMED_PROGRAM__NAME).prepend[setNewLines(1, 2, 2)]
 		p.regionFor.keyword("(").prepend[noSpace]
-		p.regionFor.keywords(",", ")").forEach[it.prepend[noSpace].append[oneSpace]]
+		p.allRegionsFor.keyword(",").prepend[noSpace].append[oneSpace]
+		p.regionFor.keyword(")").prepend[noSpace].append[oneSpace]
 		p.program.format
 		p.outputs.forEach[it.format]
 	}
@@ -36,7 +37,7 @@ class WFormatter extends AbstractFormatter2 {
 	def dispatch void format(Assertion a, extension IFormattableDocument doc) {
 		a.prepend[newLine]
 		a.regionFor.keywords('(', ')').forEach[it.surround[noSpace]]
-		a.regionFor.keyword(',').append[oneSpace]
+		a.allRegionsFor.keyword(',').append[oneSpace]
 	}
 
 	def dispatch void format(Print p, extension IFormattableDocument doc) {
@@ -63,8 +64,8 @@ class WFormatter extends AbstractFormatter2 {
 	}
 
 	def dispatch void format(Reference r, extension IFormattableDocument document) {
-		r.regionFor.keyword(",").prepend[noSpace].append[oneSpace]
-		r.regionFor.keywords("(", ")").forEach[it.surround[noSpace]]
+		r.allRegionsFor.keyword(",").prepend[noSpace].append[oneSpace]
+		r.allRegionsFor.keywords("(", ")").forEach[it.surround[noSpace]]
 	}
 
 	def dispatch void format(Assignment a, extension IFormattableDocument document) {
