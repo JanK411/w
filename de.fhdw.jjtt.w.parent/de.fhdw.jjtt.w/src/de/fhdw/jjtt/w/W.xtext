@@ -17,6 +17,7 @@ Operator:
 NamedProgram:
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
+	(run ?= '!')?
 	'}';
 
 UnnamedProgram:

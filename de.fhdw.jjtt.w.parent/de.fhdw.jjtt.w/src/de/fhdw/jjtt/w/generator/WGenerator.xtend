@@ -28,6 +28,7 @@ class WGenerator extends AbstractGenerator {
 		val path = resource.URI.path
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
 		val content = '''
+			import org.junit.Test;
 			import turingmaschine.*;
 			import turingmaschine.band.*;
 			
@@ -42,20 +43,14 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def String generateNamedProgram(NamedProgram program) {
-		if (program.name == "main" && program.params.size == 0) {
-			'''
-			public static void main(String[] args) {
-				«declareVariables(program.program.variables)»
-				«generateProgram(program.program)».simuliere();
-				«printAllVariables(program.program.variables)»
-			}'''
-		} else {
-			'''
-			public static TuringMaschineMitBand create«program.getName.toFirstUpper»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
-				«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
-				return «generateProgram(program.getProgram)»;
-			}'''
-		}
+		'''
+		«IF program.run»@Test«ENDIF»
+		public static «IF program.run»void«ELSE»TuringMaschineMitBand«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
+			«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
+			«IF program.run»«generateProgram(program.program)».simuliere()
+			«ELSE»return «generateProgram(program.program)»
+			«ENDIF»;
+		}'''
 	}
 
 	def printAllVariables(List<String> strings) {
@@ -76,7 +71,7 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Reference reference) {
-		'''«IF reference.isInBuild»TuringMaschinen.«ENDIF»create«reference.name.toFirstUpper»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
+		'''«IF reference.isInBuild»TuringMaschinen.«ENDIF»«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {

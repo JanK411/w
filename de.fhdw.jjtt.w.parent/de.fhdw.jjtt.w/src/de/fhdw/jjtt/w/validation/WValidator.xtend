@@ -23,6 +23,7 @@ class WValidator extends AbstractWValidator {
 
 	@Check
 	def checkDeadEnd(Reference r) {
+		//TODO umbasteln auf die 'isInbuild' Operation
 		if(r.name == 'copy' && r.params.size == 2) return
 		val matchingPrograms = r.getContainerOfType(File).programs.filter[it.name == r.name]
 		if (matchingPrograms.empty)
