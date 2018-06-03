@@ -34,7 +34,7 @@ testDivide2() {
 testDivideNotEven() {
 	a = 3 + 0;
 	b = 2 + 0;
-	divide(a, b,c)
+	divide(a, b, c)
 	assert(3, a)
 	assert(2, b)
 	assert(1, c)
@@ -49,7 +49,7 @@ testMultiply() {
 
 testMultiply2() {
 	x = 5 + 0;
-	multiply(x, x,x)
+	multiply(x, x, x)
 	assert(25, x)
 }
 
@@ -59,32 +59,32 @@ testSubZero() {
 }
 
 testMod0() {
-	mod(165, 5,r0)
+	mod(165, 5, r0)
 	assert(0, r0)
 }
 testMod1() {
-	mod(7, 2,r1)
+	mod(7, 2, r1)
 	assert(1, r1)
 }
 testMod2() {
-	mod(6, 4,r2)
+	mod(6, 4, r2)
 	assert(2, r2)
 }
 
 testEuclid() {
-	euclid(6, 3,r)
+	euclid(6, 3, r)
 	assert(3, r)
 }
 testEuclid1() {
-	euclid(21, 14,r)
+	euclid(21, 14, r)
 	assert(7, r)
 }
 testEuclid2() {
-	euclid(199, 68,r)
+	euclid(199, 68, r)
 	assert(1, r)
 }
 testEuclid3() {
-	euclid(54, 24,r)
+	euclid(54, 24, r)
 	assert(6, r)
 }
 
@@ -111,19 +111,24 @@ multiply(f1, f2, result) {
 divide(f1, f2, result) {
 	f11 = f1 + 0;
 	while f11 !=0 do
-		f11 = f11 - f2;
-		newRes = newRes + 1
+	//TODO wir brauchen hier ein greaterThanOrEquals
+		isGreaterThan(f11, f2, b);
+		while b !=0 do
+			newRes = newRes + 1;
+			b = 0 + 0
+		endwhile;
+		f11 = f11 - f2
 	endwhile;
 	result = newRes + 0
 }
 
 mod(a, n, r) {
-	divide(a, n,parkplatz1);
-	multiply(parkplatz1, n,parkplatz2);
+	divide(a, n, parkplatz1);
+	multiply(parkplatz1, n, parkplatz2);
 	r = a - parkplatz2
 }
 
-euclid(a, b,r) {
+euclid(a, b, r) {
 	ai = a + 0;
 	bi = b + 0;
 	while a ==0 do
@@ -146,7 +151,7 @@ euclid(a, b,r) {
 
 }
 
-isGreaterThan(a, b,r) {
+isGreaterThan(a, b, r) {
 	ai = a + 0;
 	bi = b + 0;
 	parkplatz = a - b;
@@ -156,6 +161,4 @@ isGreaterThan(a, b,r) {
 		parkplatz = 0 + 0
 	endwhile
 }
-
-
 
