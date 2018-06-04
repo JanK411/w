@@ -9,6 +9,7 @@ import de.fhdw.jjtt.w.w.WPackage
 import org.eclipse.xtext.validation.Check
 
 import static extension org.eclipse.xtext.EcoreUtil2.*
+import de.fhdw.jjtt.w.w.NamedProgram
 
 /**
  * This class contains custom validation rules. 
@@ -21,9 +22,11 @@ class WValidator extends AbstractWValidator {
 
 	public static val DEAD_REFERENCE_PARAMS = 'deadReferenceParams'
 
+	public static val PARAMS_OUTPUTS_NOT_ALLOWED = 'paramsAndOutputsNotAllowedTogether'
+
 	@Check
 	def checkDeadEnd(Reference r) {
-		//TODO umbasteln auf die 'isInbuild' Operation
+		// TODO umbasteln auf die 'isInbuild' Operation
 		if(r.name == 'copy' && r.params.size == 2) return
 		val matchingPrograms = r.getContainerOfType(File).programs.filter[it.name == r.name]
 		if (matchingPrograms.empty)
@@ -31,6 +34,14 @@ class WValidator extends AbstractWValidator {
 		else if (!matchingPrograms.exists[r.params.size == it.params.size]) {
 			error('''Die Parameter von «r.name»(«r.params») stimmen nicht mit denen des Programms «r.name» überein''',
 				WPackage.Literals.REFERENCE__PARAMS, DEAD_REFERENCE_PARAMS)
+		}
+	}
+
+	@Check
+	def ckeckAssertionsOnlyInParamFreeOperations(NamedProgram p) {
+		if (!p.params.empty && !p.outputs.empty) {
+			error('''Ein parametrisiertes Programm darf keine Outputs oder Assertions haben!''',
+				WPackage.Literals.NAMED_PROGRAM__OUTPUTS, PARAMS_OUTPUTS_NOT_ALLOWED)
 		}
 	}
 
