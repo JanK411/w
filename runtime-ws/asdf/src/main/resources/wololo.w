@@ -1,21 +1,25 @@
 
-testAdd1() {
-	x = x + x
-	assert(0, x)
+programmAusSkriptSeite23() {
+	x1 = x0 + 5;
+	while x1 !=0 do
+		x2 = x2 + 8;
+		x1 = x1 - 1
+	endwhile
+	assert(0, x1)
+	assert(40, x2)
 }
-testAdd2() {
-	x = 5 + x
-	assert(5, x)
-}
-testAdd3() {
-	x = x + 5
-	assert(5, x)
-}
-testAdd4() {
-	y = 5 + 0;
-	x = y + y
-	assert(10, x)
-	assert(5, y)
+
+testAdd() {
+	a = a + a;
+	b = 5 + b;
+	c = c + 5;
+	e = 5 + 0;
+	d = e + e
+	assert(10, d)
+	assert(5, e)
+	assert(5, c)
+	assert(0, a)
+	assert(5, b)
 }
 
 testDivide() {
@@ -41,16 +45,14 @@ testDivideNotEven() {
 }
 
 testMultiply() {
-	x = 5 + 0;
-	y = 3 + 0;
-	multiply(x, y, result)
-	assert(15, result)
-}
+	a = 5 + 0;
+	b = 3 + 0;
+	multiply(a, b, result);
 
-testMultiply2() {
-	x = 5 + 0;
-	multiply(x, x, x)
-	assert(25, x)
+	c = 5 + 0;
+	multiply(c, c, c)
+	assert(25, c)
+	assert(15, result)
 }
 
 testSubZero() {
@@ -88,14 +90,77 @@ testEuclid3() {
 	assert(6, r)
 }
 
-programmAusSkriptSeite23() {
-	x1 = x0 + 5;
-	while x1 !=0 do
-		x2 = x2 + 8;
-		x1 = x1 - 1
-	endwhile
-	assert(0, x1)
-	assert(40, x2)
+testGreaterThan() {
+	isGreaterThan(5, 3, a);
+	isGreaterThan(0, 0, b);
+	isGreaterThan(0, 1, c);
+	isGreaterThan(1, 0, d);
+	isGreaterThan(50, 50, e)
+	assert(1, a)
+	assert(0, b)
+	assert(0, c)
+	assert(1, d)
+	assert(0, e)
+}
+
+testGreaterThanOrEqual() {
+	isGreaterThanOrEqual(5, 3, t1);
+	isGreaterThanOrEqual(0, 0, t2);
+	isGreaterThanOrEqual(1, 0, t3);
+	isGreaterThanOrEqual(50, 50, t4);
+	isGreaterThanOrEqual(0, 1, f1);
+	isGreaterThanOrEqual(3, 4, f2)
+	assert(1, t1)
+	assert(1, t2)
+	assert(1, t3)
+	assert(1, t4)
+	assert(0, f1)
+	assert(0, f2)
+}
+
+testSmallerThanOrEqual() {
+	isGreaterThanOrEqual(0, 0, t1);
+	isGreaterThanOrEqual(50, 50, t2);
+	isGreaterThanOrEqual(0, 1, t3);
+	isGreaterThanOrEqual(3, 4, t4);
+	isGreaterThanOrEqual(5, 3, f1);
+	isGreaterThanOrEqual(1, 0, f2)
+	assert(1, t1)
+	assert(1, t2)
+	assert(1, t3)
+	assert(1, t4)
+	assert(0, f1)
+	assert(0, f2)
+}
+
+testSmallerThan() {
+	isSmallerThan(5, 3, a);
+	isSmallerThan(0, 0, b);
+	isSmallerThan(0, 1, c);
+	isSmallerThan(1, 0, d);
+	isSmallerThan(50, 50, e)
+	assert(0, a)
+	assert(0, b)
+	assert(1, c)
+	assert(0, d)
+	assert(0, e)
+}
+
+testEquals() {
+	equals(5, 5, t1);
+	equals(0, 0, t2);
+	equals(1, 1, t3);
+	equals(1, 0, f1);
+	equals(0, 1, f2);
+	equals(1, 2, f3);
+	equals(2, 1, f4)
+	assert(1, t1)
+	assert(1, t2)
+	assert(1, t3)
+	assert(0, f1)
+	assert(0, f2)
+	assert(0, f3)
+	assert(0, f4)
 }
 
 multiply(f1, f2, result) {
@@ -111,7 +176,7 @@ multiply(f1, f2, result) {
 divide(f1, f2, result) {
 	f11 = f1 + 0;
 	while f11 !=0 do
-	//TODO wir brauchen hier ein greaterThanOrEquals
+		// TODO wir brauchen hier ein greaterThanOrEquals
 		isGreaterThan(f11, f2, b);
 		while b !=0 do
 			newRes = newRes + 1;
@@ -152,8 +217,6 @@ euclid(a, b, r) {
 }
 
 isGreaterThan(a, b, r) {
-	ai = a + 0;
-	bi = b + 0;
 	parkplatz = a - b;
 	r = 0 + 0;
 	while parkplatz !=0 do
@@ -162,3 +225,48 @@ isGreaterThan(a, b, r) {
 	endwhile
 }
 
+isGreaterThanOrEqual(a, b, r) {
+	isGreaterThan(a, b, r);
+	ri = r + 0;
+	while ri ==0 do
+		isGreaterThan(b, a, rii);
+		while rii ==0 do
+			r = 1 + 0;
+			rii = 1 + 0
+		endwhile;
+		ri = 1 + 0
+	endwhile
+}
+
+isSmallerThanOrEqual(a, b, r) {
+	isSmallerThan(a, b, r);
+	ri = r + 0;
+	while ri ==0 do
+		isSmallerThan(b, a, rii);
+		while rii ==0 do
+			r = 1 + 0;
+			rii = 1 + 0
+		endwhile;
+		ri = 1 + 0
+	endwhile
+}
+
+isSmallerThan(a, b, r) {
+	parkplatz = b - a;
+	r = 0 + 0;
+	while parkplatz !=0 do
+		r = 0 + 1;
+		parkplatz = 0 + 0
+	endwhile
+}
+
+equals(a, b, r) {
+	isGreaterThan(a, b, r1);
+	isGreaterThan(b, a, r2);
+	zeroWhenEqual = r1 + r2;
+	r = 1 + 0;
+	while zeroWhenEqual !=0 do
+		r = 0 + 0;
+		zeroWhenEqual = 0 + 0
+	endwhile
+}
