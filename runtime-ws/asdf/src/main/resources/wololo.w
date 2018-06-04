@@ -119,12 +119,12 @@ testGreaterThanOrEqual() {
 }
 
 testSmallerThanOrEqual() {
-	isGreaterThanOrEqual(0, 0, t1);
-	isGreaterThanOrEqual(50, 50, t2);
-	isGreaterThanOrEqual(0, 1, t3);
-	isGreaterThanOrEqual(3, 4, t4);
-	isGreaterThanOrEqual(5, 3, f1);
-	isGreaterThanOrEqual(1, 0, f2)
+	isSmallerThanOrEqual(0, 0, t1);
+	isSmallerThanOrEqual(50, 50, t2);
+	isSmallerThanOrEqual(0, 1, t3);
+	isSmallerThanOrEqual(3, 4, t4);
+	isSmallerThanOrEqual(5, 3, f1);
+	isSmallerThanOrEqual(1, 0, f2)
 	assert(1, t1)
 	assert(1, t2)
 	assert(1, t3)
