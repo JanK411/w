@@ -176,8 +176,7 @@ multiply(f1, f2, result) {
 divide(f1, f2, result) {
 	f11 = f1 + 0;
 	while f11 !=0 do
-		// TODO wir brauchen hier ein greaterThanOrEquals
-		isGreaterThan(f11, f2, b);
+		isGreaterThanOrEqual(f11, f2, b);
 		while b !=0 do
 			newRes = newRes + 1;
 			b = 0 + 0
