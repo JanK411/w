@@ -24,16 +24,24 @@ import java.util.Comparator
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#outline
  */
 class WOutlineTreeProvider extends DefaultOutlineTreeProvider {
-	def dispatch createChildren(DocumentRootNode parentNode, File file) {
+	def dispatch void createChildren(DocumentRootNode parentNode, File file) {
 		file.programs.sortBy[it.name].sortBy[it.params.empty].forEach[createNode(parentNode, it)]
 	}
 
-	def dispatch createChildren(IOutlineNode parentNode, NamedProgram namedProgramm) {
+	def dispatch void createChildren(IOutlineNode parentNode, NamedProgram namedProgramm) {
 		createNode(parentNode, namedProgramm.program)
 	}
 
-	def dispatch createChildren(IOutlineNode parentNode, Loop loop) {
+	def dispatch void createChildren(IOutlineNode parentNode, Loop loop) {
 		createNode(parentNode, loop.prog)
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, Sequence s) {
+		createNode(parentNode, s.p1)
+		if (s.p2 instanceof Sequence)
+			createChildren(parentNode, s.p2)
+		else
+			createNode(parentNode, s.p2)
 	}
 
 	def dispatch isLeaf(Assignment a) { true }
