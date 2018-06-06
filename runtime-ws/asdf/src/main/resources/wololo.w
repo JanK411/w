@@ -213,6 +213,7 @@ mod(a, n, r) {
 	r = a - parkplatz2
 }
 
+/"Funktion aus der Vorlesung, die bestimmt mit dem Wert 1 in ret terminiert"/
 terminiertIrgendwannBestimmt(n, ret) {
 	isGreaterThan(n, 1, res);
 	while res !=0 do
