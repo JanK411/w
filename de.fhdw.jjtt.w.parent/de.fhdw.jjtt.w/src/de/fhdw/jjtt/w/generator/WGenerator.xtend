@@ -6,10 +6,10 @@ package de.fhdw.jjtt.w.generator
 import de.fhdw.jjtt.w.w.Assertion
 import de.fhdw.jjtt.w.w.Assignment
 import de.fhdw.jjtt.w.w.Loop
-import de.fhdw.jjtt.w.w.NamedProgram
 import de.fhdw.jjtt.w.w.Print
 import de.fhdw.jjtt.w.w.Reference
 import de.fhdw.jjtt.w.w.Sequence
+import de.fhdw.jjtt.w.w.NamedProgram
 import java.util.List
 import java.util.stream.Collectors
 import org.eclipse.emf.ecore.resource.Resource
@@ -46,12 +46,13 @@ class WGenerator extends AbstractGenerator {
 
 	def String generateNamedProgram(NamedProgram program) {
 		'''
+		«IF program.comment !== null»/**«program.comment»*/«ENDIF»
 		«IF !program.outputs.empty»@Test«ENDIF»
 		public «IF program.outputs.empty»TuringMaschineMitBand«ELSE»void«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
 			«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
 			«IF program.outputs.empty»return «generateProgram(program.program)»;
 			«ELSE»«generateProgram(program.program)».simuliere();
-			«program.outputs.map[it.declare].reduce[s1, s2|s1+"\n"+s2]»
+				«program.outputs.map[it.declare].reduce[s1, s2|s1+"\n"+s2]»
 			«ENDIF»
 		}'''
 	}

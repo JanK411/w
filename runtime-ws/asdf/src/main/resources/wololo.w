@@ -1,4 +1,4 @@
-
+/"Das Programm, welches im Skript auf Seite 23 steht."/
 programmAusSkriptSeite23() {
 	x1 = x0 + 5;
 	while x1 !=0 do
@@ -180,6 +180,7 @@ terminiertIrgendwannBestimmtTest4() {
 	assert(1, ret1)
 }
 
+/"schreibt das Ergebnis der Multiplikation von f1 * f2 in das result."/
 multiply(f1, f2, result) {
 	f1i = 0 + 0;
 	f2i = f2 + 0;
@@ -190,6 +191,8 @@ multiply(f1, f2, result) {
 	result = f1i + 0
 }
 
+/"schreibt das Ergebnis der Division von f1 / f2 in das result.
+Falls das Ergebnis keine natürliche Zahl ist, wird abgerundet."/
 divide(f1, f2, result) {
 	f11 = f1 + 0;
 	while f11 !=0 do
@@ -203,6 +206,7 @@ divide(f1, f2, result) {
 	result = newRes + 0
 }
 
+/"schreibt den Rest der Division von a / n in r"/
 mod(a, n, r) {
 	divide(a, n, parkplatz1);
 	multiply(parkplatz1, n, parkplatz2);
@@ -228,6 +232,7 @@ terminiertIrgendwannBestimmt(n, ret) {
 	ret = 1 + 0
 }
 
+/"schreibt den größten gemeinsamen Teiler von a und b in r."/
 euclid(a, b, r) {
 	ai = a + 0;
 	bi = b + 0;
@@ -251,6 +256,8 @@ euclid(a, b, r) {
 
 }
 
+/"prüft, ob a größer als b ist.
+Schreibt in r eine 1, wenn dem so ist, sonst eine 0."/
 isGreaterThan(a, b, r) {
 	parkplatz = a - b;
 	r = 0 + 0;
@@ -260,6 +267,8 @@ isGreaterThan(a, b, r) {
 	endwhile
 }
 
+/"prüft, ob a größer oder gleich b ist.
+Schreibt in r eine 1, wenn dem so ist, sonst eine 0."/
 isGreaterThanOrEqual(a, b, r) {
 	isGreaterThan(a, b, r);
 	ri = r + 0;
@@ -273,6 +282,8 @@ isGreaterThanOrEqual(a, b, r) {
 	endwhile
 }
 
+/"prüft, ob a kleiner oder gleich b ist.
+Schreibt in r eine 1, wenn dem so ist, sonst eine 0."/
 isSmallerThanOrEqual(a, b, r) {
 	isSmallerThan(a, b, r);
 	ri = r + 0;
@@ -286,6 +297,8 @@ isSmallerThanOrEqual(a, b, r) {
 	endwhile
 }
 
+/" prüft, ob a kleiner ist als b.
+Schreibt in r eine 1, wenn dem so ist, sonst eine 0."/
 isSmallerThan(a, b, r) {
 	parkplatz = b - a;
 	r = 0 + 0;
@@ -295,6 +308,8 @@ isSmallerThan(a, b, r) {
 	endwhile
 }
 
+/"prüft, ob in a derselbe Wert steht, wie in b.
+Schreibt in r eine 1, wenn dem so ist, sonst eine 0."/
 equals(a, b, r) {
 	isGreaterThan(a, b, r1);
 	isGreaterThan(b, a, r2);
