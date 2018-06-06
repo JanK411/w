@@ -42,6 +42,8 @@
         eType="#//Output" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" ordered="false"
         unique="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="print" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnnamedProgram" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="File">
