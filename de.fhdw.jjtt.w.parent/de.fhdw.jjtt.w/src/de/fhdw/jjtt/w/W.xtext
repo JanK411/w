@@ -15,6 +15,7 @@ Operator:
 	'+' | '-';
 
 NamedProgram:
+	('/' comment=STRING '/')?
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
 	outputs+=Output*
