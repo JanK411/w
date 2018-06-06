@@ -16,6 +16,7 @@ import org.eclipse.xtext.ui.IImageHelper
 import org.eclipse.xtext.ui.editor.outline.IOutlineNode
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
 import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode
+import java.util.Comparator
 
 /**
  * Customization of the default outline structure.
@@ -24,7 +25,7 @@ import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode
  */
 class WOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	def dispatch createChildren(DocumentRootNode parentNode, File file) {
-		file.programs.forEach[createNode(parentNode, it)]
+		file.programs.sortBy[it.name].sortBy[it.params.empty].forEach[createNode(parentNode, it)]
 	}
 
 	def dispatch createChildren(IOutlineNode parentNode, NamedProgram namedProgramm) {
@@ -71,7 +72,10 @@ class WOutlineTreeProvider extends DefaultOutlineTreeProvider {
 	}
 
 	def dispatch image(NamedProgram p) {
-		helper.getImage("namedProgram.png")
+		if (p.params.empty)
+			helper.getImage("test.png")
+		else
+			helper.getImage("namedProgram.png")
 	}
 
 	def dispatch image(Sequence s) {
