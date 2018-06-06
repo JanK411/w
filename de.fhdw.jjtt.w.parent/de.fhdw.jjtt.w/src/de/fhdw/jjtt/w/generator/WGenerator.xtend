@@ -58,11 +58,11 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String declare(Assertion a) {
-		'''assertEquals(Integer.valueOf(«a.expected.value»), Integer.valueOf(«a.real.name».toString()));'''
+		'''assertEquals(Integer.valueOf(«a.expected.value»), Integer.valueOf(«a.real.name».getBandInhalt()));'''
 	}
 
 	def dispatch String declare(Print p) {
-		'''System.out.println("«p.variable.name» = " + «p.variable.name».toString());'''
+		'''System.out.println("«p.variable.name» = " + «p.variable.name».getBandInhalt());'''
 	}
 
 	def printAllVariables(List<String> strings) {
