@@ -50,6 +50,9 @@ Workflow {
 			quickFixProvider = {
 				generateStub = true
 			}
+			outline = {
+				generateStub = true
+			}
 			parserGenerator = {
 				options = {
 					ignoreCase = true
