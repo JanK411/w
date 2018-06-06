@@ -163,6 +163,23 @@ testEquals() {
 	assert(0, f4)
 }
 
+terminiertIrgendwannBestimmtTest1() {
+	terminiertIrgendwannBestimmt(1, ret1)
+	assert(1, ret1)
+}
+terminiertIrgendwannBestimmtTest2() {
+	terminiertIrgendwannBestimmt(2, ret1)
+	assert(1, ret1)
+}
+terminiertIrgendwannBestimmtTest3() {
+	terminiertIrgendwannBestimmt(3, ret1)
+	assert(1, ret1)
+}
+terminiertIrgendwannBestimmtTest4() {
+	terminiertIrgendwannBestimmt(4, ret1)
+	assert(1, ret1)
+}
+
 /"schreibt das Ergebnis der Multiplikation von f1 * f2 in das result."/
 multiply(f1, f2, result) {
 	f1i = 0 + 0;
@@ -194,6 +211,26 @@ mod(a, n, r) {
 	divide(a, n, parkplatz1);
 	multiply(parkplatz1, n, parkplatz2);
 	r = a - parkplatz2
+}
+
+/"Funktion aus der Vorlesung, die bestimmt mit dem Wert 1 in ret terminiert"/
+terminiertIrgendwannBestimmt(n, ret) {
+	isGreaterThan(n, 1, res);
+	while res !=0 do
+		mod(n, 2, res2);
+		res3 = res2 + 0;
+		while res2 ==0 do
+			divide(n, 2, n);
+			res2 = 1 + 0
+		endwhile;
+		while res3 !=0 do
+			multiply(3, n, parkplatz);
+			n = parkplatz + 1;
+			res3 = 0 + 0
+		endwhile;
+		isGreaterThan(n, 1, res)
+	endwhile;
+	ret = 1 + 0
 }
 
 /"schreibt den größten gemeinsamen Teiler von a und b in r."/
