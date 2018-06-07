@@ -83,7 +83,7 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Reference reference) {
-		'''«IF reference.isInBuild»TuringMaschinen.«ENDIF»«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
+		'''«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {
