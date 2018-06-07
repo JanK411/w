@@ -9,10 +9,11 @@ import de.fhdw.jjtt.w.w.File
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
-
-import static org.junit.Assert.*
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
+
+import static org.junit.Assert.*
 
 import static extension de.fhdw.jjtt.w.XUtils.*
 
@@ -28,50 +29,65 @@ class WParsingTest {
 		val input = parseHelper.parse('''
 		main() {
 			x = 5 + 3;
-			y = 6 - x;
+			y = 6 - x
+			assert(8, x)
+			assert(0, y)
 		}''')
 
 		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "main"])
 		println(main)
 
-		val expected = '''public static void main(String[] args) {
-			ChangeableBand x = ChangeableBand.create();
-			ChangeableBand y = ChangeableBand.create();
+		val expected = '''	
+		@Test
+		public void main() {
+			ChangeableBand x = ChangeableBand.create("0");
+			ChangeableBand y = ChangeableBand.create("0");
 			TuringMaschinen.createSeq(
-				TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("3"), x)),
-				TuringMaschinen.createSub(ChangeableBand.create("6"), x, y))
-			)
-			.simuliere();
+					TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("3"), x),
+					TuringMaschinen.createSub(ChangeableBand.create("6"), x, y)
+			).simuliere();
+				assertEquals(Integer.valueOf(8), Integer.valueOf(x.getBandInhalt()));
+				assertEquals(Integer.valueOf(0), Integer.valueOf(y.getBandInhalt()));
 		}'''
 
 		assertEquals(expected.trimWhitespaces, main.trimWhitespaces);
-
 	}
 
 	@Test
 	def testMultiply() {
 		val input = parseHelper.parse('''
-		multiply(f1, f2) {
-			copy(f1, f11);
-			copy(f2, f21);
-				while f21 !=0 do
-					f1 = f1 + f11;
-					f21 = f21 - 1
-				endwhile
+		/"schreibt das Ergebnis der Multiplikation von f1 * f2 in das result."/
+		multiply(f1, f2, result) {
+			f1i = 0 + 0;
+			f2i = f2 + 0;
+			while f2i !=0 do
+				f1i = f1i + f1;
+				f2i = f2i - 1
+			endwhile;
+			result = f1i + 0
 		}''')
 
 		val main = gen.generateNamedProgram(input.programs.findFirst[it.name == "multiply"])
 		println(main)
 
-		val expected = '''public static void main(String[] args) {
-			ChangeableBand x = ChangeableBand.create();
-			ChangeableBand y = ChangeableBand.create();
-			TuringMaschinen.createSeq(
-				TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("3"), x)),
-				TuringMaschinen.createSub(ChangeableBand.create("6"), x, y))
-			)
-			.simuliere();
-		}'''
+		val expected = '''	/**schreibt das Ergebnis der Multiplikation von f1 * f2 in das result.*/
+			public TuringMaschineMitBand multiply(ChangeableBand f1, ChangeableBand f2, ChangeableBand result) {
+				ChangeableBand f1i = ChangeableBand.create("0");
+				ChangeableBand f2i = ChangeableBand.create("0");
+				return TuringMaschinen.createSeq(
+						TuringMaschinen.createAdd(ChangeableBand.create("0"), ChangeableBand.create("0"), f1i),
+						TuringMaschinen.createSeq(
+								TuringMaschinen.createAdd(f2, ChangeableBand.create("0"), f2i),
+								TuringMaschinen.createSeq(
+										TuringMaschinen.createWhileNotEqual(f2i, TuringMaschinen.createSeq(
+												TuringMaschinen.createAdd(f1i, f1, f1i),
+												TuringMaschinen.createSub(f2i, ChangeableBand.create("1"), f2i)
+										)),
+										TuringMaschinen.createAdd(f1i, ChangeableBand.create("0"), result)
+								)
+						)
+				);
+				}'''
 
 		assertEquals(expected.trimWhitespaces, main.trimWhitespaces);
 
@@ -80,55 +96,71 @@ class WParsingTest {
 	@Test
 	def loadModel() {
 		val result = parseHelper.parse('''
-		main() {
+		/"testet das Multiply"/
+		testMultiply() {
 			x = 5 + 0;
 			y = 3 + 0;
-			multiply(x, y)
+			multiply(x, y, res)
+			assert(5, x)
+			assert(3, y)
+			assert(15, res)
 		}
 		
-		multiply(f1, f2) {
-			copy(f1, f11);
-			copy(f2, f21);
-			while f21 !=0 do
-				f1 = f1 + f11;
-				f21 = f21 - 1
-			endwhile
+		/"schreibt das Ergebnis der Multiplikation von f1 * f2 in das result."/
+		multiply(f1, f2, result) {
+			f1i = 0 + 0;
+			f2i = f2 + 0;
+			while f2i !=0 do
+				f1i = f1i + f1;
+				f2i = f2i - 1
+			endwhile;
+			result = f1i + 0
 		}''')
 
-		assertEquals(2, result.programs)
-		assertNotNull(result.programs.findFirst[it.name == "main"])
+		assertEquals(2, result.programs.size)
+		assertNotNull(result.programs.findFirst[it.name == "testMultiply"])
 		assertNotNull(result.programs.findFirst[it.name == "multiply"])
 
-//		val main = gen.generateProgram(result.programs.findFirst[it.name == "main"])
-		val expectedMain = '''
-		public static void main(String[] args) {
-			Band x = Band.create();
-			Band y = Band.create();
-			TouringMachine.createSeq(
-				TouringMachine.createAdd(5,0,x),
-				TouringMachine.createSeq(
-					TouringMachine.createAdd(3,0,y),
-					createMultiplyMachine(x, y))
+		val actualTestCase = gen.generateNamedProgram(result.programs.findFirst[it.name == "testMultiply"])
+		val expectedTestCase = '''
+			/**testet das Multiply*/
+			@Test
+			public void testMultiply() {
+		ChangeableBand x = ChangeableBand.create("0");
+		ChangeableBand y = ChangeableBand.create("0");
+		ChangeableBand res = ChangeableBand.create("0");
+		TuringMaschinen.createSeq(
+				TuringMaschinen.createAdd(ChangeableBand.create("5"), ChangeableBand.create("0"), x),
+				TuringMaschinen.createSeq(
+						TuringMaschinen.createAdd(ChangeableBand.create("3"), ChangeableBand.create("0"), y),
+						multiply(x, y, res)
 				)
-			).run();
-		}'''
-//		Assert.assertEquals(expectedMain.trim, main.trim)
-//		val multiply = gen.generateProgram(result.programs.findFirst[it.name == "multiply"])
+		).simuliere();
+			assertEquals(Integer.valueOf(5), Integer.valueOf(x.getBandInhalt()));
+			assertEquals(Integer.valueOf(3), Integer.valueOf(y.getBandInhalt()));
+			assertEquals(Integer.valueOf(15), Integer.valueOf(res.getBandInhalt()));
+			}'''
+		Assert.assertEquals(expectedTestCase.trimWhitespaces, actualTestCase.trimWhitespaces)
+		val multiply = gen.generateNamedProgram(result.programs.findFirst[it.name == "multiply"])
 		val expectedMultiply = '''
-		public TouringMachine createMultiplyMachine(Band f1, Band f2) {
-			Band f11 = Band.create();
-			Band f21 = Band.create();
-			return TouringMachine.createSeq(
-				TouringMachine.createCopy(f1, f11),
-				TouringMachine.createSeq(
-					TouringMachine.createCopy(f2, f21)
-					TouringMachine.createWhile(f21, TouringMachine.createSeq(
-						TouringMachine.createAdd(f1, f11, f1),
-						TouringMachine.createSub(f21, Band.create(1), f21)
-					))
-				)
-			)
-		}'''
-//		Assert.assertEquals(expectedMultiply.trim, multiply.trim)
+			/**schreibt das Ergebnis der Multiplikation von f1 * f2 in das result.*/
+		public TuringMaschineMitBand multiply(ChangeableBand f1, ChangeableBand f2, ChangeableBand result) {
+			ChangeableBand f1i = ChangeableBand.create("0");
+			ChangeableBand f2i = ChangeableBand.create("0");
+			return TuringMaschinen.createSeq(
+					TuringMaschinen.createAdd(ChangeableBand.create("0"), ChangeableBand.create("0"), f1i),
+					TuringMaschinen.createSeq(
+							TuringMaschinen.createAdd(f2, ChangeableBand.create("0"), f2i),
+							TuringMaschinen.createSeq(
+									TuringMaschinen.createWhileNotEqual(f2i, TuringMaschinen.createSeq(
+											TuringMaschinen.createAdd(f1i, f1, f1i),
+											TuringMaschinen.createSub(f2i, ChangeableBand.create("1"), f2i)
+									)),
+									TuringMaschinen.createAdd(f1i, ChangeableBand.create("0"), result)
+							)
+					)
+			);
+			}'''
+		Assert.assertEquals(expectedMultiply.trimWhitespaces, multiply.trimWhitespaces)
 	}
 }
