@@ -30,4 +30,11 @@ class WQuickfixProvider extends DefaultQuickfixProvider {
 		]
 	}
 
+	@Fix(WValidator.LOWER_CASE_NAME)
+	def toLower(Issue issue, IssueResolutionAcceptor acceptor) {
+		acceptor.accept(issue, 'to Lower', 'to Lower', 'error.png') [ context |
+			val character = context.xtextDocument.getChar(issue.offset)
+			context.xtextDocument.replace(issue.offset, 1, Character.toLowerCase(character).toString)
+		]
+	}
 }

@@ -26,6 +26,8 @@ class WValidator extends AbstractWValidator {
 
 	public static val PARAMS_PRINT_NOT_ALLOWED = 'paramsAndPrintNotAllowedTogether'
 
+	public static val LOWER_CASE_NAME = 'nameShouldStartWithLowercase'
+
 	@Check
 	def checkDeadEnd(Reference r) {
 		if(r.name == 'copy' && r.params.size == 2) return
@@ -52,6 +54,13 @@ class WValidator extends AbstractWValidator {
 			warning('''Ein parametrisiertes Programm kann nicht mit Ausgabe simuliert werden, da es nicht simuliert werden kann!''',
 				WPackage.Literals.NAMED_PROGRAM__PRINT, PARAMS_PRINT_NOT_ALLOWED)
 		}
+	}
+
+	@Check
+	def checkLowerCaseStart(NamedProgram p) {
+		if (Character.isUpperCase(p.name.charAt(0)))
+			warning('''Ein Programmname sollte mit einem Kleinbuchstaben anfangen!''',
+				WPackage.Literals.NAMED_PROGRAM__NAME, LOWER_CASE_NAME)
 	}
 
 }
