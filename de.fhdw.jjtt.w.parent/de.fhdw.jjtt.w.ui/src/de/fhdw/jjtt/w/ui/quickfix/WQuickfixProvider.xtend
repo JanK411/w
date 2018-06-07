@@ -18,14 +18,14 @@ class WQuickfixProvider extends DefaultQuickfixProvider {
 
 	@Fix(WValidator.PARAMS_OUTPUTS_NOT_ALLOWED)
 	def removeOutputs(Issue issue, IssueResolutionAcceptor acceptor) {
-		acceptor.accept(issue, 'remove outputs', 'remove the outputs', 'wololo.png') [ context |
+		acceptor.accept(issue, 'remove output', 'remove the output', 'error.png') [ context |
 			context.xtextDocument.replace(issue.offset, issue.length, '')
 		]
 	}
 
 	@Fix(WValidator.PARAMS_PRINT_NOT_ALLOWED)
 	def removePrint(Issue issue, IssueResolutionAcceptor acceptor) {
-		acceptor.accept(issue, 'remove print', 'remove the print', 'wololo.png') [ context |
+		acceptor.accept(issue, 'remove print', 'remove the print', 'error.png') [ context |
 			context.xtextDocument.replace(issue.offset, issue.length, '')
 		]
 	}
