@@ -18,6 +18,7 @@ NamedProgram:
 	('/' comment=STRING '/')?
 	name=ID '(' params+=Variable? (',' params+=Variable)* ')' '{'
 	program=UnnamedProgram
+	(print?='!')?
 	outputs+=Output*
 	'}';
 

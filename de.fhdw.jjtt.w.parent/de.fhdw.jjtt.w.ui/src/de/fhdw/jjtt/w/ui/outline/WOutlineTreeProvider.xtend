@@ -3,13 +3,102 @@
  */
 package de.fhdw.jjtt.w.ui.outline
 
+import com.google.inject.Inject
+import de.fhdw.jjtt.w.w.Assignment
+import de.fhdw.jjtt.w.w.Constant
+import de.fhdw.jjtt.w.w.File
+import de.fhdw.jjtt.w.w.Loop
+import de.fhdw.jjtt.w.w.NamedProgram
+import de.fhdw.jjtt.w.w.Reference
+import de.fhdw.jjtt.w.w.Sequence
+import de.fhdw.jjtt.w.w.Variable
+import org.eclipse.xtext.ui.IImageHelper
+import org.eclipse.xtext.ui.editor.outline.IOutlineNode
 import org.eclipse.xtext.ui.editor.outline.impl.DefaultOutlineTreeProvider
+import org.eclipse.xtext.ui.editor.outline.impl.DocumentRootNode
 
 /**
  * Customization of the default outline structure.
- *
+ * 
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#outline
  */
 class WOutlineTreeProvider extends DefaultOutlineTreeProvider {
+	def dispatch void createChildren(DocumentRootNode parentNode, File file) {
+		file.programs.sortBy[it.name].sortBy[it.params.empty].forEach[createNode(parentNode, it)]
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, NamedProgram namedProgramm) {
+		createNode(parentNode, namedProgramm.program)
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, Loop loop) {
+		createNode(parentNode, loop.prog)
+	}
+
+	def dispatch void createChildren(IOutlineNode parentNode, Sequence s) {
+		createNode(parentNode, s.p1)
+		if (s.p2 instanceof Sequence)
+			createChildren(parentNode, s.p2)
+		else
+			createNode(parentNode, s.p2)
+	}
+
+	def dispatch isLeaf(Assignment a) { true }
+
+	def dispatch isLeaf(Reference r) { true }
+
+	def dispatch String text(Assignment a) {
+		'''«a.toBeAssigned.text» = «a.val1.text» «a.op» «a.val2.text»'''
+	}
+
+	def dispatch String text(Variable v) {
+		v.name
+	}
+
+	def dispatch String text(Constant c) {
+		c.value.toString
+	}
+
+	def dispatch String text(Sequence s) {
+		'''sequence'''
+	}
+
+	def dispatch String text(Loop l) {
+		'''while «l.^var.text» «l.op»'''
+	}
+
+	def dispatch String text(Reference r) {
+		'''«r.name»(«r.params.map[it.text].join(", ")»)'''
+	}
+
+	@Inject
+	IImageHelper helper;
+
+	def dispatch image(Loop l) {
+		helper.getImage("while.png")
+	}
+
+	def dispatch image(NamedProgram p) {
+		if (p.params.empty)
+			helper.getImage("test.png")
+		else
+			helper.getImage("namedProgram.png")
+	}
+
+	def dispatch image(Sequence s) {
+		helper.getImage("sequence.png")
+	}
+
+	def dispatch image(Assignment a) {
+		helper.getImage("assignment.png")
+	}
+
+	def dispatch image(Reference r) {
+		helper.getImage("reference.png")
+	}
+
+	def dispatch String text(NamedProgram n) {
+		'''«n.name»(«n.params.map[it.text].join(", ")»)'''
+	}
 
 }

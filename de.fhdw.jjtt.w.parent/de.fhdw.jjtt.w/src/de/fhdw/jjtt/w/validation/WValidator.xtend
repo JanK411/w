@@ -24,10 +24,10 @@ class WValidator extends AbstractWValidator {
 
 	public static val PARAMS_OUTPUTS_NOT_ALLOWED = 'paramsAndOutputsNotAllowedTogether'
 
+	public static val PARAMS_PRINT_NOT_ALLOWED = 'paramsAndPrintNotAllowedTogether'
+
 	@Check
 	def checkDeadEnd(Reference r) {
-		// TODO umbasteln auf die 'isInbuild' Operation
-		if(r.name == 'copy' && r.params.size == 2) return
 		val matchingPrograms = r.getContainerOfType(File).programs.filter[it.name == r.name]
 		if (matchingPrograms.empty)
 			error('''Kein Programm namens «r.name» gefunden''', WPackage.Literals.REFERENCE__NAME, DEAD_REFERENCE_NAME)
@@ -42,6 +42,14 @@ class WValidator extends AbstractWValidator {
 		if (!p.params.empty && !p.outputs.empty) {
 			error('''Ein parametrisiertes Programm darf keine Outputs oder Assertions haben!''',
 				WPackage.Literals.NAMED_PROGRAM__OUTPUTS, PARAMS_OUTPUTS_NOT_ALLOWED)
+		}
+	}
+
+	@Check
+	def checkPrintOnlyInParamFreeOperations(NamedProgram p) {
+		if (p.print && !p.params.empty) {
+			warning('''Ein parametrisiertes Programm kann nicht mit Ausgabe simuliert werden, da es nicht simuliert werden kann!''',
+				WPackage.Literals.NAMED_PROGRAM__PRINT, PARAMS_PRINT_NOT_ALLOWED)
 		}
 	}
 

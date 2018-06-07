@@ -51,7 +51,7 @@ class WGenerator extends AbstractGenerator {
 		public «IF program.outputs.empty»TuringMaschineMitBand«ELSE»void«ENDIF» «program.getName»(«program.params.map["ChangeableBand "+it.name].join(", ")») {
 			«declareVariables(program.program.variables.filter[!program.params.map[it.name].contains(it)].toList)»
 			«IF program.outputs.empty»return «generateProgram(program.program)»;
-			«ELSE»«generateProgram(program.program)».simuliere();
+			«ELSE»«generateProgram(program.program)».simuliere«IF program.print»MitAusgabe«ENDIF»();
 				«program.outputs.map[it.declare].reduce[s1, s2|s1+"\n"+s2]»
 			«ENDIF»
 		}'''
@@ -83,7 +83,7 @@ class WGenerator extends AbstractGenerator {
 	}
 
 	def dispatch String generateProgram(Reference reference) {
-		'''«IF reference.isInBuild»TuringMaschinen.«ENDIF»«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
+		'''«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
 	}
 
 	def dispatch String generateProgram(Assignment assignment) {

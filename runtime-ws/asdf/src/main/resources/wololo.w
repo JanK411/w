@@ -4,7 +4,7 @@ programmAusSkriptSeite23() {
 	while x1 !=0 do
 		x2 = x2 + 8;
 		x1 = x1 - 1
-	endwhile
+	endwhile!
 	assert(0, x1)
 	assert(40, x2)
 }

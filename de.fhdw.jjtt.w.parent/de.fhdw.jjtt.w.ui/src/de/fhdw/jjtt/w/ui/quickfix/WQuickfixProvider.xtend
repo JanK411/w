@@ -3,7 +3,11 @@
  */
 package de.fhdw.jjtt.w.ui.quickfix
 
+import de.fhdw.jjtt.w.validation.WValidator
 import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
+import org.eclipse.xtext.ui.editor.quickfix.Fix
+import org.eclipse.xtext.ui.editor.quickfix.IssueResolutionAcceptor
+import org.eclipse.xtext.validation.Issue
 
 /**
  * Custom quickfixes.
@@ -11,13 +15,19 @@ import org.eclipse.xtext.ui.editor.quickfix.DefaultQuickfixProvider
  * See https://www.eclipse.org/Xtext/documentation/310_eclipse_support.html#quick-fixes
  */
 class WQuickfixProvider extends DefaultQuickfixProvider {
-//	@Fix(WValidator.INVALID_NAME)
-//	def capitalizeName(Issue issue, IssueResolutionAcceptor acceptor) {
-//		acceptor.accept(issue, 'Capitalize name', 'Capitalize the name.', 'upcase.png') [
-//			context |
-//			val xtextDocument = context.xtextDocument
-//			val firstLetter = xtextDocument.get(issue.offset, 1)
-//			xtextDocument.replace(issue.offset, 1, firstLetter.toUpperCase)
-//		]
-//	}
+
+	@Fix(WValidator.PARAMS_OUTPUTS_NOT_ALLOWED)
+	def removeOutputs(Issue issue, IssueResolutionAcceptor acceptor) {
+		acceptor.accept(issue, 'remove output', 'remove the output', 'error.png') [ context |
+			context.xtextDocument.replace(issue.offset, issue.length, '')
+		]
+	}
+
+	@Fix(WValidator.PARAMS_PRINT_NOT_ALLOWED)
+	def removePrint(Issue issue, IssueResolutionAcceptor acceptor) {
+		acceptor.accept(issue, 'remove print', 'remove the print', 'error.png') [ context |
+			context.xtextDocument.replace(issue.offset, issue.length, '')
+		]
+	}
+
 }
