@@ -49,8 +49,4 @@ class XUtils {
 		a = a.replaceAll("\\s{2,}", " ").trim()
 		a = a.replaceAll("\\s", " ").trim()
 	}
-
-	static def isInBuild(Reference r) {
-		r.name == "copy" && r.params.size == 2
-	}
 }
