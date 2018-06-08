@@ -26,6 +26,10 @@ import static extension de.fhdw.jjtt.w.XUtils.*
  */
 class WGenerator extends AbstractGenerator {
 
+	/**
+	 * Einstiegs-Operation für den Generator. Hier werden zunächst die evtl. benötigten Importe generiert, 
+	 * danach werden für alle NamedPrograms die dazugehörigen Operationen und Methoden definiert. 
+	 */
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		val path = resource.URI.path
 		val fileName = path.substring(path.lastIndexOf('/') + 1, path.length - 2)
@@ -44,6 +48,11 @@ class WGenerator extends AbstractGenerator {
 		fsa.generateFile('''../src/main/java/«fileName».java''', content)
 	}
 
+	/**
+	 * Generiert die Operation und Methode für ein NamedProgram. Dabei werden zunächst alle Variablen deklariert, 
+	 * welche in diesem NamedProgram verwendet werden. Ebenso wird hier unterschieden, 
+	 * ob die generierte Operation als ausführbaren JUnit-Test gekennzeichnet wird, oder ob die Operation eine TuringMaschine erstellt und diese zurückgibt.
+	 */
 	def String generateNamedProgram(NamedProgram program) {
 		'''
 		«IF program.comment !== null»/**«program.comment»*/«ENDIF»
@@ -57,20 +66,34 @@ class WGenerator extends AbstractGenerator {
 		}'''
 	}
 
+	/**
+	 * generiert assertEquals für JUnit-Tests.
+	 */
 	def dispatch String declare(Assertion a) {
 		'''assertEquals(Integer.valueOf(«a.expected.value»), Integer.valueOf(«a.real.name».getBandInhalt()));'''
 	}
 
+	/**
+	 * generiert eine Konsolen-ausgabe für eine Variable.
+	 */
 	def dispatch String declare(Print p) {
 		'''System.out.println("«p.variable.name» = " + «p.variable.name».getBandInhalt());'''
 	}
 
+	/**
+	 * generiert Konsolen-ausgaben für die Liste der strings, welche als Parameter übergeben wird. 
+	 * Doppelte Elemente werden herausgefiltert. 
+	 */
 	def printAllVariables(List<String> strings) {
 		'''«FOR s : strings.stream.distinct.collect(Collectors.toList)»
 		System.out.println("«s»" + " = " + «s»);
 		«ENDFOR»'''
 	}
 
+	/**
+	 * generiert Deklarationen für alle Variablen-Namen der Liste der Parameter und weißt ihnen den Wert 0 zu.
+	 * Doppelte Elemente werden ignoriert.
+	 */
 	def declareVariables(List<String> list) {
 		val ret = new StringBuilder;
 		list.stream.distinct.forEach [
@@ -82,18 +105,30 @@ class WGenerator extends AbstractGenerator {
 		ret
 	}
 
+	/**
+	 * generiert die Operationsaufrufe, die Aufgrund einer Referenz entstehen.
+	 */
 	def dispatch String generateProgram(Reference reference) {
 		'''«reference.name»(«reference.params.map[it.valueHavingThingToString].join(", ")»)'''
 	}
 
+	/**
+	 * generiert eine Add- oder Sub-Maschine, je nach Operator des Assignments.
+	 */
 	def dispatch String generateProgram(Assignment assignment) {
 		'''TuringMaschinen.create«IF assignment.op == "+"»Add«ENDIF»«IF assignment.op == "-"»Sub«ENDIF»(«assignment.val1.valueHavingThingToString», «assignment.val2.valueHavingThingToString», «assignment.toBeAssigned.name»)'''
 	}
 
+	/**
+	 * generiert eine WhileEqual- oder WhileNotEqual-Maschine, je nach Operator des Loops.
+	 */
 	def dispatch String generateProgram(Loop loop) {
 		'''TuringMaschinen.createWhile«IF loop.op == '==0'»Equal«ELSE»NotEqual«ENDIF»(«loop.^var.valueHavingThingToString», «generateProgram(loop.prog)»)'''
 	}
 
+	/**
+	 * generiert eine Sequence-Maschine, welche die zwei Programme der Sequence hintereinander ausführen kann.
+	 */
 	def dispatch String generateProgram(Sequence sequence) {
 		'''
 		TuringMaschinen.createSeq(
